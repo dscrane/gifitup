@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-
 import { Sidebar } from "./components/Sidebar";
-import { AppBar } from "./components/AppBar";
-import { GameTable } from "./components/GameTable";
+import { Gamespace } from "./components/Gamespace";
 
 const App = () => {
   return (
@@ -11,13 +9,8 @@ const App = () => {
         <Sidebar />
       </div>
       <div className="app__gamespace">
-        <div className="gamespace__table">Gamespace Table</div>
-        <div className="gamespace__hand">Gamespace Hand</div>
+        <Gamespace />
       </div>
-      {/*<div style={{ height: "100vh", background: "black" }}>100vh</div>*/}
-      {/*<AppBar />*/}
-      {/*<Sidebar />*/}
-      {/*<GameTable />*/}
     </div>
   );
 };

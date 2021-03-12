@@ -3,14 +3,12 @@ html {
   width: 100vw;
   background: lightcoral;
 }
-
 body, #root {
   height: 100%;
   width: 100%;
   margin: 0 0;
   padding: 0 0 ;
 }
-
 .app {
   display: flex;
   justify-content: center;
@@ -19,25 +17,20 @@ body, #root {
   width: 100%;
   height: 100%;
 }
-
 .app__sidebar {
   display: flex;
   flex: 2.5 1;
-  overflow: hidden;
   flex-direction: column;
   background: burlywood;
 }
 .app__gamespace {
   display: flex;
   flex: 9.5 2;
-  overflow: hidden;
   flex-direction: column;
   background: darkslategray;
 }
-
 .sidebar {
   display: flex;
-  overflow: hidden;
   flex-direction: column;
 }
 .sidebar__row {
@@ -47,27 +40,18 @@ body, #root {
 }
 .sidebar__row-header {
   flex: 4 1 17vh;
-  overflow: hidden;
 }
 .sidebar__row-content {
   flex: 6 1 66.66vh;
-  overflow: hidden;
 }
 .sidebar__row-footer {
   flex: 3 1 10vh;
-  overflow: hidden;
 }
-
-
-
 .gamespace__table {
-  overflow: hidden;
   flex: 9 2 75vh;
   background: lightgreen;
 }
-
 .gamespace__hand {
-  overflow: hidden;
   flex: 3 1 25vh;
   background: lightcyan;
 }

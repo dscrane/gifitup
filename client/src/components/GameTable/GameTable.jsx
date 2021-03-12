@@ -2,11 +2,7 @@ import React from "react";
 import TableContainer from "./TableContainer";
 
 const GameTable = () => {
-  return (
-    <div>
-      <TableContainer />
-    </div>
-  );
+  return <div>{"<GamespaceTable/>"}</div>;
 };
 
 export default GameTable;
