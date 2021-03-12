@@ -27,7 +27,7 @@ body, #root {
   display: flex;
   flex: 9.5 2;
   flex-direction: column;
-  background: darkslategray;
+  background: lightsteelblue;
 }
 .sidebar {
   display: flex;
@@ -41,17 +41,54 @@ body, #root {
 .sidebar__row-header {
   flex: 4 1 17vh;
 }
-.sidebar__row-content {
+.sidebar__header {
+  font-family: 'Ubuntu Condensed', sans-serif;
+}
+.sidebar__row-list {
+  display: flex;
+  justify-content: center;
   flex: 6 1 66.66vh;
+}
+.sidebar__list {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin: 1vh;
+  width: 80%;
+  }
+.list__item {
+  display: flex;
+  flex-direction: row;
+  height: 5vh;
+  border: 1px solid black;
+  margin: 1vh;
+}
+.item__content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.item__content-avi {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 2 1;
+}
+.item__content-name {
+  flex: 10 2;
 }
 .sidebar__row-footer {
   flex: 3 1 10vh;
 }
 .gamespace__table {
-  flex: 9 2 75vh;
-  background: lightgreen;
+  margin: 1vh 1vh .5vh 1vh;
+  border: 1px solid black;
+  flex: 9 2 74vh;
+
 }
 .gamespace__hand {
-  flex: 3 1 25vh;
-  background: lightcyan;
+  margin: .5vh 1vh 1vh 1vh;
+  border: 1px solid black;
+  flex: 3 1 23vh;
+
 }

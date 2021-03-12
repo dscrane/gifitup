@@ -10,13 +10,14 @@ const content = [
   "List Item 6",
 ];
 
-const SidebarDrawer = () => {
+const SidebarList = () => {
   return (
-    <div>
-      Drawer
-      <SidebarItem />
+    <div className="sidebar__list">
+      {content.map((el) => (
+        <SidebarItem content={el} />
+      ))}
     </div>
   );
 };
 
-export default SidebarDrawer;
+export default SidebarList;
