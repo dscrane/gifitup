@@ -1,12 +1,7 @@
 import React from "react";
-import { Container } from "@material-ui/core";
 
 const TableContainer = () => {
-  return (
-    <Container>
-      <div>Hello From Table Container</div>
-    </Container>
-  );
+  return <div>Hello From Table Container</div>;
 };
 
 export default TableContainer;

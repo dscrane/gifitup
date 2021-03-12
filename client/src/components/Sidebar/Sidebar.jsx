@@ -1,19 +1,33 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core";
 import SidebarDrawer from "./SidebarDrawer";
 
-const useStyles = makeStyles(() => ({
-  sidebar: {
-    width: "100%",
-    height: "100vh",
-  },
-}));
+const lts = [
+  "a",
+  "b",
+  "c",
+  "d",
+  "e",
+  "f",
+  "g",
+  "a",
+  "b",
+  "c",
+  "d",
+  "e",
+  "f",
+  "g",
+];
 
 const Sidebar = () => {
-  const classes = useStyles();
   return (
-    <div className={classes.sidebar}>
-      <SidebarDrawer />
+    <div className="sidebar">
+      <div className="sidebar__row sidebar__row-header">App Heading!</div>
+      <div className="sidebar__row sidebar__row-content">
+        {lts.map((lt) => (
+          <div>{lt}</div>
+        ))}
+      </div>
+      <h4 className="sidebar__row sidebar__row-footer">FOOTER</h4>
     </div>
   );
 };
