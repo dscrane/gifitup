@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import SidebarItem from "./SidebarItem";
+import SidebarListItem from "./SidebarListItem";
 
 const content = [
   "List Item 1",
@@ -14,7 +14,7 @@ const SidebarList = () => {
   return (
     <div className="sidebar__list">
       {content.map((el) => (
-        <SidebarItem content={el} />
+        <SidebarListItem itemContent={el} />
       ))}
     </div>
   );

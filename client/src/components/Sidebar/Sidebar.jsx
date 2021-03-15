@@ -1,6 +1,5 @@
 import React from "react";
-import SidebarList from "./SidebarList";
-import SidebarHeader from "./SidebarHeader";
+import { SidebarList, SidebarFooter, SidebarHeader } from "./components";
 
 const Sidebar = () => {
   return (
@@ -12,7 +11,7 @@ const Sidebar = () => {
         <SidebarList />
       </div>
       <div className="sidebar__row sidebar__row-footer">
-        {"<SidebarFooter/>"}
+        <SidebarFooter />
       </div>
     </div>
   );

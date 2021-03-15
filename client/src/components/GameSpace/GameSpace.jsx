@@ -2,7 +2,7 @@ import React from "react";
 import { GameTable } from "../GameTable";
 import { GameHand } from "../GameHand";
 
-const Gamespace = () => {
+const GameSpace = () => {
   return (
     <>
       <div className="gamespace__table">
@@ -15,4 +15,4 @@ const Gamespace = () => {
   );
 };
 
-export default Gamespace;
+export default GameSpace;

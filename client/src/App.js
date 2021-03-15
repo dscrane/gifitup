@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Sidebar } from "./components/Sidebar";
-import { Gamespace } from "./components/Gamespace";
+import { GameSpace } from "./components/GameSpace";
 
 const App = () => {
   return (
@@ -9,7 +9,7 @@ const App = () => {
         <Sidebar />
       </div>
       <div className="app__gamespace">
-        <Gamespace />
+        <GameSpace />
       </div>
     </div>
   );
