@@ -1,9 +1,9 @@
 const defaultParams = {
   search: {
     sort: "relevant",
-    limit: "150",
+    limit: 100,
     offset: 0,
-    rating: "g",
+    rating: "r",
     type: "gifs",
     lang: "en",
   },
@@ -11,7 +11,7 @@ const defaultParams = {
     rating: "g",
   },
   trending: {
-    limit: "150",
+    limit: 100,
     offset: 0,
     rating: "g",
     type: "gifs",

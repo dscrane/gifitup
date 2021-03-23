@@ -15,10 +15,10 @@ const testsvg = (
 );
 
 const SidebarListItem = ({ itemContent }) => {
+  //TODO find a better svg lib and integrate
   return (
     <div className="list__item">
       <div className=" item__content item__content-avi">
-        //TODO find a better svg lib and integrate
         <div className="avi-svg">{testsvg}</div>
       </div>
       <div className="item__content item__content-name">
