@@ -1,14 +1,14 @@
 import React from "react";
 import { SidebarList, SidebarFooter, SidebarHeader } from "./components";
 
-const Sidebar = () => {
+const Sidebar = ({ socket }) => {
   return (
     <div className="sidebar">
       <div className="sidebar__row sidebar__row-header">
         <SidebarHeader />
       </div>
       <div className="sidebar__row sidebar__row-list">
-        <SidebarList />
+        <SidebarList socket={socket}/>
       </div>
       <div className="sidebar__row sidebar__row-footer">
         <SidebarFooter />

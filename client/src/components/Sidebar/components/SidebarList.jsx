@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import SidebarListItem from "./SidebarListItem";
 
 const content = [
@@ -10,13 +10,30 @@ const content = [
   "List Item 6",
 ];
 
-const SidebarList = () => {
+const SidebarList = ({ socket }) => {
+  const [playerName, setPlayerName] = useState("");
+  const [players, addPlayer] = useState([])
+  const handleChange = (e) => {
+    setPlayerName(e.target.value);
+  }
+  const addNewPlayer = () => {
+    addPlayer([playerName, ...players])
+    socket.emit("new-player", {name: playerName})
+    setPlayerName("");
+  }
+
   return (
-    <div className="sidebar__list">
-      {content.map((el) => (
-        <SidebarListItem itemContent={el} />
-      ))}
-    </div>
+    <>
+      <div>
+        <input name="new-player" value={playerName} onChange={handleChange} />
+        <button onClick={addNewPlayer}>Add</button>
+      </div>
+      <div className="sidebar__list">
+        {players.map((el) => (
+          <SidebarListItem itemContent={el} />
+        ))}
+      </div>
+    </>
   );
 };
 
