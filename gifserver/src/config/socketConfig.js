@@ -1,16 +1,32 @@
 import chalk from "chalk";
+import uniqueId from "lodash.uniqueid";
 
-export const socketConfig =  (io) => {
+
+export const socketConfig = async (io) => {
+  io.socketsLeave("testRoom")
   io.disconnectSockets(true)
   io.on("connection", async socket => {
-    console.log(`${chalk.yellow('[SOCKET]:')} ${socket.id} has connected`);
-    // Initialize new player and add them to the game room
+    socket.emit('initial-connection', {
+      data: {
+        id: socket.id
+      }
+  })
+    socket.on("join-room", () => {
+      const roomId = uniqueId();
+      socket.join(roomId);
+      socket.data.room = roomId;
+      socket.emit('joined-room', {
+        data: {
+          ...socket.data,
+        }
+      })
+    })
+
+
+
     socket.on("new-player", ({name}) => {
       console.log(`${chalk.yellow('[SOCKET]:')} ${name}`)
       socket.data.username = name;
-      socket.join("testRoom");
-      socket.data.room = "testRoom";
-      socket.emit("welcome", socket.data)
       console.log(socket.data)
     })
 

@@ -1,6 +1,5 @@
 html {
   height: 100vh;
-  background: lightcoral;
 }
 body, #root {
   width:  calc(100vw - (100vw - 100%));;

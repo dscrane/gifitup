@@ -1,30 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { Sidebar } from "./components/Sidebar";
-import { GameSpace } from "./components/GameSpace";
-import { io } from "socket.io-client";
-
+import { Redirect, Router, Route, Switch } from "react-router-dom";
+import history from "./config/history";
+import { useSession } from "./store/store";
+import { LandingPage, GamePage } from "./pages";
 
 const App = () => {
-  const [socket, setSocket] = useState(null);
-
-  useEffect(() => {
-    const socket = io("http://localhost:5500")
-    setSocket(socket);
-  }, [])
-  useEffect(() => {
-    if (socket) {
-      socket.on("welcome", ({socketId, room}) => console.log(socketId, room))
-    }
-  }, [socket])
-
+  const session = useSession(state => state.session)
   return (
     <div className="app">
-      <div className="app__sidebar">
-        <Sidebar socket={socket}/>
-      </div>
-      <div className="app__gamespace">
-        <GameSpace />
-      </div>
+      <Router history={history}>
+        <Switch>
+          <Route path="/" exact>
+            {session.initialized ? <Redirect to="/games" /> : <LandingPage />}
+          </Route>
+          <Route path="/games">
+            {session.initialized ? <GamePage /> : <Redirect to="/" />}
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 };
