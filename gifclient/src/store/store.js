@@ -2,23 +2,37 @@ import create from "zustand";
 import { devtools } from "zustand/middleware";
 import produce from "immer";
 
-import { basePlayerState } from "./baseStates/basePlayerState";
+import {
+  basePlayerState,
+  baseSessionState,
+} from "./baseStates/basePlayerState";
 
 export const useSession = create(
   devtools((set) => ({
-    session: { initialized: false },
+    session: { ...baseSessionState },
     initializeSession: () =>
       set((state) => ({
         session: {
           initialized: true,
         },
       })),
-    updateSession: (newSessionData) =>
+    updateSocket: (socketInstance) =>
       set((state) => {
-        console.log(newSessionData);
+        console.info("[UpdateSocket]: ", socketInstance);
         return {
           session: {
-            ...newSessionData,
+            socketIO: socketInstance.io,
+            config: { socket: { ...socketInstance } },
+            ...state.session,
+          },
+        };
+      }),
+    updateSessionData: (newSessionData) =>
+      set((state) => {
+        console.info("[UpdateSessionData]: ", newSessionData);
+        return {
+          session: {
+            config: { ...newSessionData, ...state.session.config },
             ...state.session,
           },
         };
@@ -29,14 +43,18 @@ export const useSession = create(
 export const usePlayers = create(
   devtools((set) => ({
     players: [],
-    addPlayer: (player) =>
-      set((state) => ({
-        players: [{ ...basePlayerState, ...player }, ...state.players],
-      })),
+    addPlayer: (playerName) =>
+      set((state) => {
+        console.info("[addPlayer]:", playerName);
+        return {
+          players: [{ ...basePlayerState, name: playerName }, ...state.players],
+        };
+      }),
     removePlayer: (playerId) =>
-      set((state) => ({
-        players: state.players.filter((player) => player.id !== playerId),
-      })),
-    set: (fn) => set(produce(fn)),
+      set((state) => {
+        return {
+          players: state.players.filter((player) => player.id !== playerId),
+        };
+      }),
   }))
 );

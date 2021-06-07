@@ -1,4 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
+import { usePlayers, useSession } from "../../../store/store";
+
 import SidebarListItem from "./SidebarListItem";
 
 const content = [
@@ -10,17 +12,22 @@ const content = [
   "List Item 6",
 ];
 
-const SidebarList = ({ socket }) => {
+const SidebarList = () => {
   const [playerName, setPlayerName] = useState("");
-  const [players, addPlayer] = useState([])
+  const [players, addPlayer] = usePlayers((state) => [
+    state.players,
+    state.addPlayer,
+  ]);
+  const [session] = useSession((state) => [state.session]);
+
   const handleChange = (e) => {
     setPlayerName(e.target.value);
-  }
-  const addNewPlayer = () => {
-    addPlayer([playerName, ...players])
-    socket.emit("new-player", {name: playerName})
+  };
+  const addNewPlayer = async () => {
+    await addPlayer(playerName);
+    session.socketIO.emit("new-player", { name: playerName });
     setPlayerName("");
-  }
+  };
 
   return (
     <>
@@ -30,7 +37,7 @@ const SidebarList = ({ socket }) => {
       </div>
       <div className="sidebar__list">
         {players.map((el) => (
-          <SidebarListItem itemContent={el} />
+          <SidebarListItem itemContent={el.name} />
         ))}
       </div>
     </>

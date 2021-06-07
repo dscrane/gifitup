@@ -2,13 +2,14 @@ import chalk from "chalk";
 import uniqueId from "lodash.uniqueid";
 
 
-export const socketConfig = async (io) => {
+export const socketConfig = (io) => {
   io.socketsLeave("testRoom")
   io.disconnectSockets(true)
-  io.on("connection", async socket => {
+  io.on("connection", socket => {
+    console.log(`${chalk.yellow('[SOCKET]:')} connection`)
     socket.emit('initial-connection', {
       data: {
-        id: socket.id
+        socketId: socket.id
       }
   })
     socket.on("join-room", () => {
