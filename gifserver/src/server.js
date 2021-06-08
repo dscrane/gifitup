@@ -1,7 +1,7 @@
 import { createServer } from "http";
 import express  from "express";
 import { Server } from "socket.io"
-import chalk from "chalk";
+import { log } from "./utils/logs.js"
 
 import { socketConfig } from "./config/socketConfig.js";
 
@@ -39,5 +39,5 @@ app.get("/", (req, res) => {
 socketConfig(io);
 
 httpServer.listen(PORT, () => {
-  console.log(`${chalk.gray('[APP]:')} Listening on localhost:${PORT}`);
+  log.app(`Listening on localhost:${PORT}`);
 });
