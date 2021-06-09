@@ -1,48 +1,66 @@
+import { randomId } from "../utils/utilities.js";
+import { log } from "../utils/logs.js"
 
-import uniqueId from "lodash.uniqueid";
-import {log} from "../utils/logs.js"
-
-const getAllConnections = (connections) => {
-  let connectedSockets = []
-  const setIter = connections.entries();
-  for (const entry of setIter) {
-    connectedSockets.push(entry[0])
+const getSocketNames = (sockets) => {
+  let connectedNames = [];
+  for (const socket of sockets) {
+   connectedNames.push(socket.nickname)
   }
-  return connectedSockets;
+  return connectedNames;
 }
 
 export const socketConfig =  (io) => {
   io.socketsLeave("testRoom")
   io.disconnectSockets(true)
   io.on("connection", async socket => {
-    const roomId = 'test'
-    log.socket(`${socket.id} has connected`)
-    await socket.join('test')
+    log.socket(`${socket.id} initial connect`)
+    // const roomId = 'test'
+    // log.socket(`${socket.id} has connected`)
+    // await socket.join('test')
+    //
+    // socket.data.room = roomId
 
-    socket.data.room = roomId
-    const connections = await io.in(roomId).allSockets();
-    const socketsInRoom = getAllConnections(connections).filter(connection => connection !== socket.id)
-    socket.emit('initial-connection', {
-      data: {
-        socketsInRoom,
-        socketId: socket.id,
-      }
-    })
-    socket.broadcast.emit('update-connections', socket.id)
-    socket.on('check-connections', async (room) => {
-      const connections = await io.in(room).allSockets();
-      socket.data.connections = connections
-      socket.emit('update-connections', { data: { ...socket.data}})
+
+    // socket.broadcast.emit('update-connections', socket.id)
+    // socket.on('check-connections', async (room) => {
+    //   const connections = await io.in(room).allSockets();
+    //   socket.data.connections = connections
+    //   socket.emit('update-connections', { data: { ...socket.data}})
+    // })
+    socket.on("create-room", async (name, callback) => {
+      // Create random roomId
+      const roomId = randomId("r");
+      log.socket(`Room ${roomId} has been created`)
+      // Add relevant information to socket object
+      socket.data.room = roomId;
+      socket.nickname = name;
+      // Join newly created room
+      await socket.join(roomId);
+      log.socket(`${socket.id} has joined room ${roomId}`)
+      callback(`${roomId} created`)
+      const playerNames =  getSocketNames(await io.in(roomId).fetchSockets());
+      socket.emit('room-created',
+        {session: {roomId}},
+        {playerNames: {playerNames}}
+        )
+
     })
 
-    // socket.on("join-room", (name, callback) => {
-    //   const roomId = uniqueId();
-    //   console.log(roomId)
-    //   socket.data.room = roomId;
-    //   socket.nickname = name;
-    //   socket.join(roomId);
-    //   log.socket(`${socket.id} has joined room ${roomId}`)
-    //   console.log(socket)
+
+    socket.on("join-room", async (name, roomId, callback) => {
+      console.log(roomId, name)
+
+      socket.data.room = roomId;
+      socket.nickname = name;
+      socket.join(roomId)
+      const playerNames =  getSocketNames(await io.in(roomId).fetchSockets());
+      callback(`${name} has joined ${roomId}`)
+      console.log(playerNames)
+      io/*.to('roomId').*/.emit('room-created',
+        {session: {roomId}},
+        {playerNames: {playerNames}}
+      )
+    })
     //
     //
     //
@@ -55,8 +73,8 @@ export const socketConfig =  (io) => {
     //   callback({ status: "ok" })
     // })
 
+
+    // // console.log(`${chalk.yellow('[SOCKET]:')}`, io)
+
   })
-
-  // // console.log(`${chalk.yellow('[SOCKET]:')}`, io)
-
 }

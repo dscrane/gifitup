@@ -10,7 +10,7 @@ const SidebarList = () => {
     <>
       <div className="sidebar__list">
         {players.map((el) => (
-          <SidebarListItem key={el.id} itemContent={el.name} />
+          <SidebarListItem key={el.id} itemContent={el.playerName} />
         ))}
       </div>
     </>

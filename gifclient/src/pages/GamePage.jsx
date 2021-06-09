@@ -9,27 +9,37 @@ export const GamePage = () => {
     state.players,
     state.addPlayer,
   ]);
-  const [session, checkConnections] = useStore((state) => [
+  const [session, updateCurrentPlayers, updateSession] = useStore((state) => [
     state.session,
-    state.updateSessionData,
-    state.updateSocket,
+    state.updateCurrentPlayers,
+    state.updateSession,
   ]);
 
-  console.log(players, session);
-  // useEffect(() => {
-  //   socket.on("initial-connection", ({ data }) => {
-  //     console.log("eventData", data);
-  //     updateSessionData(data);
-  //   });
-  // }, []);
-  useEffect(() => {
-    checkConnections();
-  }, [socket]);
+  socket.on("connect", () =>
+    console.info(
+      "[SOCKET]: ",
+      `connection ${socket.id ? "successful" : "failed"}`
+    )
+  );
+  socket.on("room-created", ({ session }, { playerNames }) => {
+    console.info("[SOCKET]: created and joined ", session, " room");
+    updateSession(session);
+    updateCurrentPlayers(playerNames);
+  });
+
+  socket.on("initial-connection", ({ data }) => {
+    console.log("SOCKET", data);
+  });
+
+  socket.on("player-joined", ({ data }) => {
+    console.log("playerJoined", data);
+    updateCurrentPlayers(data);
+  });
 
   return (
     <>
       <div className="app__sidebar">
-        <Sidebar socketIO={session.socketIO} />
+        <Sidebar />
       </div>
       <div className="app__gamespace">
         <GameSpace />

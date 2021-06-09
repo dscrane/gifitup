@@ -1,8 +1,9 @@
-import uniqueId from "lodash.uniqueid";
+import { randomId } from "../../utils";
 
 export const baseSessionState = {
-  id: uniqueId("s_"),
+  id: randomId("s"),
   initialized: false,
   roomId: null,
+  fetchConnections: false,
   connections: [],
 };

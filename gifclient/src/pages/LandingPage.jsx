@@ -5,10 +5,13 @@ export const LandingPage = () => {
   const [playerName, setPlayerName] = useState("");
   const [gameName, setGameName] = useState("");
   const [createGame, toggleCreateGame] = useState(true);
-  const [initializeSession, joinRoom] = useStore((state) => [
-    state.initializeSession,
-    state.joinRoom,
-  ]);
+  const [initializeSession, createSessionRoom, joinSessionRoom] = useStore(
+    (state) => [
+      state.initializeSession,
+      state.createSessionRoom,
+      state.joinSessionRoom,
+    ]
+  );
 
   const handlePlayerChange = (e) => {
     setPlayerName(e.target.value);
@@ -20,8 +23,11 @@ export const LandingPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await initializeSession();
-    await joinRoom(playerName);
-    setPlayerName("");
+    if (createGame) {
+      await createSessionRoom(playerName);
+    } else {
+      await joinSessionRoom(playerName, gameName);
+    }
   };
 
   const content = createGame ? (
