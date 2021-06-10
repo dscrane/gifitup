@@ -1,16 +1,15 @@
 import React, { useState } from "react";
-import { useStore } from "../store/store";
+import { useEmitterStore, useGameStore } from "../store/store";
 
 export const LandingPage = () => {
   const [playerName, setPlayerName] = useState("");
   const [gameName, setGameName] = useState("");
   const [createGame, toggleCreateGame] = useState(true);
-  const [initializeSession, createSessionRoom, joinSessionRoom] = useStore(
-    (state) => [
-      state.initializeSession,
-      state.createSessionRoom,
-      state.joinSessionRoom,
-    ]
+  const [initializeSession] = useGameStore((state) => [
+    state.initializeSession,
+  ]);
+  const [createSessionEmitter, joinSessionEmitter] = useEmitterStore(
+    (state) => [state.createSessionEmitter, state.joinSessionEmitter]
   );
 
   const handlePlayerChange = (e) => {
@@ -24,9 +23,9 @@ export const LandingPage = () => {
     e.preventDefault();
     await initializeSession();
     if (createGame) {
-      await createSessionRoom(playerName);
+      await createSessionEmitter(playerName);
     } else {
-      await joinSessionRoom(playerName, gameName);
+      await joinSessionEmitter(playerName, gameName);
     }
   };
 

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Redirect, Router, Route, Switch } from "react-router-dom";
 import history from "./config/history";
-import { useStore } from "./store/store";
+import { useGameStore } from "./store/store";
 import { LandingPage, GamePage } from "./pages";
 
 const App = () => {
-  const session = useStore((state) => state.session);
+  const session = useGameStore((state) => state.session);
   return (
     <div className="app">
       <Router history={history}>

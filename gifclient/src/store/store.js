@@ -3,86 +3,87 @@ import { devtools } from "zustand/middleware";
 
 import socket from "../config/socket";
 import { basePlayerState, baseSessionState } from "./baseStates";
-import { randomId } from "../utils";
 
-export const useStore = create(
-  devtools((set) => ({
-    session: { ...baseSessionState },
-    players: [],
-    initializeSession: () => {
-      set((state) => {
-        console.info("[initializeSession]:", true);
-        return {
-          session: {
-            ...state.session,
-            initialized: true,
-          },
-        };
-      });
-    },
-    createSessionRoom: async (playerName) => {
-      console.info("[createRoom]: adding player...", playerName);
-      await socket.emit("create-room", playerName, (data) => {
-        console.log("[createRoom]: ", data);
-      });
-    },
-    updateSession: (updates) => {
-      console.info("[updateSession]: ", updates);
-      set((state) => {
-        return {
-          session: {
-            ...state.session,
-            ...updates,
-          },
-        };
-      });
-    },
-    joinSessionRoom: async (playerName, roomName) => {
-      console.info("[joinRoom]: ", playerName);
-      await socket.emit("join-room", playerName, roomName, (data) => {
-        console.log("[joinRoom]: ", data);
-      });
-    },
-    removePlayer: (playerId) => {
-      console.info("[removePlayer]:", playerId);
-      set((state) => {
-        return {
-          players: state.players.filter((player) => player.id !== playerId),
-        };
-      });
-    },
-    updateCurrentPlayers: ({ playerNames }) => {
-      console.info("[updateCurrentPlayers]: ", playerNames);
-      const updatedPlayerObjects = playerNames.map((playerName) => {
-        return { id: randomId("p"), playerName, ...basePlayerState };
-      });
-      set((state) => {
-        return {
-          players: [...updatedPlayerObjects],
-        };
-      });
-    },
+const emitterStore = (set) => ({
+  createSessionEmitter: async (playerName) => {
+    console.info("[CREATE_SESSION_EMIT]: adding player...", playerName);
+    await socket.emit("create-room", playerName, (data) => {
+      console.log("[CREATE_SESSION_ACK]: ", data);
+    });
+  },
+  joinSessionEmitter: async (playerName, roomName) => {
+    console.info("[JOIN_ROOM_EMIT]: ", playerName, "joining", roomName);
+    await socket.emit("join-room", playerName, roomName, (data) => {
+      console.log("[JOIN_ROOM_ACK]: ", data);
+    });
+  },
+  updateSessionEmitter: async () => {},
+  disconnectSessionEmitter: async (playerName, roomName) => {
+    console.log("[LEAVE_ROOM_EMIT]: ", playerName, "leaving", roomName);
+    await socket.emit("disconnect", playerName, roomName, (data) => {
+      console.log("[LEAVE_ROOM_ACK]: ", data);
+    });
+  },
+  endSessionEmitter: async (roomName) => {
+    console.log("[END_SESSION_EMIT]: ", roomName, "session is ending");
+    await socket.emit("end-session", roomName);
+  },
+});
 
-    // updateSocket: (socketInstance) =>
-    //   set((state) => {
-    //     console.info("[updateSocket]: ", socketInstance);
-    //     return {
-    //       session: {
-    //         ...state.session,
-    //         socketIO: socketInstance.io,
-    //         config: { socket: { ...socketInstance } },
-    //       },
-    //     };
-    //   }),
-    // updateSessionData: (newSessionData) =>
-    //   set((state) => {
-    //     console.info("[updateSessionData]: ", newSessionData);
-    //     return {
-    //       session: {
-    //         ...state.session,
-    //         config: { ...newSessionData, ...state.session.config },
-    //       },
-    //     };
-    //   }),
-  }))
-);
+const gameStore = (set) => ({
+  session: { ...baseSessionState },
+  players: [],
+  initializeSession: () => {
+    set((state) => {
+      console.info("[INITIALIZE_SESSION]:", true);
+      return {
+        session: {
+          ...state.session,
+          initialized: true,
+        },
+      };
+    });
+  },
+  updateSession: (updates) => {
+    console.info("[UPDATE_SESSION]: ", updates);
+    set((state) => {
+      return {
+        session: {
+          ...state.session,
+          ...updates,
+        },
+      };
+    });
+  },
+  removePlayer: (playerId) => {
+    console.info("[REMOVE_PLAYER]:", playerId);
+    set((state) => {
+      return {
+        players: state.players.filter((player) => player.id !== playerId),
+      };
+    });
+  },
+  fetchPlayerList: (players) => {
+    console.info("[FETCH_PLAYERS]: ", players);
+    const playerObjects = players.map((player) => ({
+      ...player,
+      ...basePlayerState,
+    }));
+    set((state) => {
+      return {
+        players: [...state.players, ...playerObjects],
+      };
+    });
+  },
+  updatePlayerList: (players) => {
+    console.info("[UPDATE_PLAYER]: ", players);
+    set((state) => {
+      return {
+        players: [...players],
+      };
+    });
+  },
+});
+
+export const useGameStore = create(devtools(gameStore, "gameStore"));
+export const useEmitterStore = create(devtools(emitterStore, "emitterStore"));

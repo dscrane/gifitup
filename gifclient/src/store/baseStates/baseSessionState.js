@@ -1,9 +1,8 @@
 import { randomId } from "../../utils";
 
 export const baseSessionState = {
-  id: randomId("s"),
+  id: randomId("S"),
   initialized: false,
   roomId: null,
   fetchConnections: false,
-  connections: [],
 };

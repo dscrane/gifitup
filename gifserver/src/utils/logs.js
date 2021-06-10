@@ -1,6 +1,6 @@
 import chalk from "chalk";
 
-const red = (from, log) => {
+const red = ( log) => {
   console.log(`\x1b[31m${log}\x1b[0m`);
 };
 
@@ -20,7 +20,7 @@ const cyan = (log) => {
   console.log(`\x1b[36m${log}\x1b[0m`);
 };
 
-const socket = (log) => console.log(`${chalk.yellow('[SOCKET]:')} ${log}`)
+const socket = (data="", log, data2="") => console.log(`${chalk.yellow('[SOCKET]:')} ${chalk.cyan(data)} ${log} ${chalk.cyan(data2)}`)
 const app = (log) => console.log(`${chalk.gray('[APP]:')} ${log}`)
 export const log = {
   red,

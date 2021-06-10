@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useStore } from "../../../store/store";
+import { useGameStore } from "../../../store/store";
 
 import SidebarListItem from "./SidebarListItem";
 
 const SidebarList = () => {
-  const [players] = useStore((state) => [state.players]);
+  const [players] = useGameStore((state) => [state.players]);
 
   return (
     <>
       <div className="sidebar__list">
         {players.map((el) => (
-          <SidebarListItem key={el.id} itemContent={el.playerName} />
+          <SidebarListItem key={el.playerId} itemContent={el.playerName} />
         ))}
       </div>
     </>
