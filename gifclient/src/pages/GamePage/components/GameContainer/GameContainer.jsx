@@ -4,9 +4,9 @@ import { GiphyFetch } from "@giphy/js-fetch-api";
 import { GameTable } from "../GameTable";
 import { GameHand } from "../GameHand";
 
-import { fetchFromGiphy } from "../../api/fetchFromGiphy";
+import { fetchFromGiphy } from "../../../../api/fetchFromGiphy";
 
-const GameSpace = () => {
+export const GameContainer = () => {
   // const gf = new GiphyFetch("ENiNvfm90KcAX4An2sM8ajbvtg3R6v18");
 
   return (
@@ -18,5 +18,3 @@ const GameSpace = () => {
     </>
   );
 };
-
-export default GameSpace;

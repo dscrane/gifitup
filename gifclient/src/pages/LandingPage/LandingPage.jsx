@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useEmitterStore, useGameStore } from "../store/store";
+import { useEmitterStore, useGameStore } from "../../store/store";
 
 export const LandingPage = () => {
   const [playerName, setPlayerName] = useState("");

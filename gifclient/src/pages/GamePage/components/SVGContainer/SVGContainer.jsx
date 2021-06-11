@@ -1,8 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
 
-import { JudgedCard } from "../JudgedCard";
+import { JudgedCard } from "../../../../components/JudgedCard";
 
-const TableSVGContainer = () => {
+export const SVGContainer = () => {
   const tableSvg = useRef(null);
   const [dims, setDims] = useState(null);
   useEffect(() => {
@@ -14,5 +14,3 @@ const TableSVGContainer = () => {
   // const renderCard = dims !== null ? <JudgedCard dims={dims} /> : "";
   return <>{}</>;
 };
-
-export default TableSVGContainer;

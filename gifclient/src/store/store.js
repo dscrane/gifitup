@@ -18,6 +18,12 @@ const emitterStore = (set) => ({
     });
   },
   updateSessionEmitter: async () => {},
+  beginGameEmitter: async () => {
+    console.info("[BEGIN_GAME_ACK]: setting session to inProgress = true");
+    await socket.emit("begin-game", true, (data) => {
+      console.log("[BEGIN_GAME_ACK]: ", data);
+    });
+  },
   disconnectSessionEmitter: async (playerName, roomName) => {
     console.log("[LEAVE_ROOM_EMIT]: ", playerName, "leaving", roomName);
     await socket.emit("disconnect", playerName, roomName, (data) => {

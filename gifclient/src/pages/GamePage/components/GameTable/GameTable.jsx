@@ -1,9 +1,8 @@
 import React from "react";
 import { Grid } from "@giphy/react-components";
-import TableSVGContainer from "./TableSVGContainer";
-import { JudgedCard } from "../JudgedCard";
+import { SVGContainer } from "../SVGContainer";
 
-const GameTable = ({ gf }) => {
+export const GameTable = ({ gf }) => {
   const fetchGifs = () =>
     gf.search("sexy", {
       sort: "relevant",
@@ -16,9 +15,7 @@ const GameTable = ({ gf }) => {
   return (
     <div className="gametable">
       <Grid width={500} columns={7} fetchGifs={fetchGifs} />
-      {/*<TableSVGContainer />*/}
+      {/*<SVGContainer />*/}
     </div>
   );
 };
-
-export default GameTable;

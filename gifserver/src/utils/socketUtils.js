@@ -23,3 +23,10 @@ export const createPlayerObject = (name, room, isHost=false) => ({
   playerName: name
 
 })
+
+export const updatePlayerObjects = (currentPlayerObject, updates) => {
+  return {
+    ...currentPlayerObject,
+    ...updates,
+  }
+}
