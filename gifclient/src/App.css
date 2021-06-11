@@ -92,6 +92,14 @@ body, #root {
   justify-content: center;
 }
 
+.gif__list {
+  width: 80%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  list-style: none;
+}
+
 .gamespace__hand {
   margin: .5vh 1vh 1vh 1vh;
   border: 1px solid black;

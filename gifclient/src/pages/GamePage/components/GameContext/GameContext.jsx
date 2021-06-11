@@ -23,12 +23,11 @@ export const GameContext = () => {
   ]);
 
   useEffect(() => {
-    socket.on("connect", () =>
+    socket.on("connect", () => {
       console.info(
         `[SOCKET]: connection ${socket.id ? "successful" : "failed"}`
-      )
-    );
-
+      );
+    });
     socket.on("room-created", ({ session }, { players }) => {
       console.info(
         `[SOCKET]: ${socket.id} created and joined ${session.roomId} room`
@@ -36,33 +35,29 @@ export const GameContext = () => {
       updateSession(session);
       fetchPlayerList(players);
     });
-
     socket.on("player-joined", ({ players }) => {
       console.log("[SOCKET]: player ", players, " joined");
       fetchPlayerList(players);
     });
-
     socket.on("player-left", ({ data }) => {
       console.log("[SOCKET]: player ", data, " left");
       removePlayer(data);
     });
-
     socket.on("game-begun", ({ data }) => {
       console.log("[SOCKET]: game begun");
+      // fetch the gifs for the game
+      // parse gifs into sets for players
+
       updatePlayerList(data);
     });
 
     return () => socket.disconnect();
-  }, [updateSession, fetchPlayerList, removePlayer]);
+  }, [updateSession, fetchPlayerList, updatePlayerList, removePlayer]);
 
   return (
     <>
-      <div className="app__sidebar">
-        <Sidebar />
-      </div>
-      <div className="app__gamespace">
-        <GameContainer />
-      </div>
+      <Sidebar />
+      <GameContainer />
     </>
   );
 };

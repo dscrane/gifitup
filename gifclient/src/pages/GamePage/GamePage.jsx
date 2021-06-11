@@ -1,8 +1,4 @@
 import React from "react";
-import { GameContext, GameContainer } from "./components";
+import { GameContext } from "./components";
 
-export const GamePage = () => (
-  <GameContext>
-    <GameContainer />
-  </GameContext>
-);
+export const GamePage = () => <GameContext />;

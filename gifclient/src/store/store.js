@@ -77,6 +77,8 @@ const gameStore = (set) => ({
     }));
     set((state) => {
       return {
+        ...state,
+        session: { ...state.session, inProgress: true },
         players: [...state.players, ...playerObjects],
       };
     });
@@ -91,5 +93,26 @@ const gameStore = (set) => ({
   },
 });
 
+const giffyStore = (set) => ({
+  giffySDK: null,
+  sessionGifs: [],
+  setGiffySDK: (giffyFetch) => {
+    console.log("[GIFFY_SDK]: ", giffyFetch);
+    set((state) => {
+      return {
+        giffySDK: giffyFetch,
+      };
+    });
+  },
+  updateSessionGifs: (gifs) => {
+    console.log("[SESSION_GIFS]: ", gifs);
+    set((state) => {
+      return {
+        sessionGifs: [...state.sessionGifs, ...gifs],
+      };
+    });
+  },
+});
 export const useGameStore = create(devtools(gameStore, "gameStore"));
 export const useEmitterStore = create(devtools(emitterStore, "emitterStore"));
+export const useGiffyStore = create(devtools(giffyStore, "giffyStore"));
