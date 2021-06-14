@@ -1,5 +1,6 @@
 html {
   height: 100vh;
+  overflow: hidden;
 }
 body, #root {
   width:  calc(100vw - (100vw - 100%));;
@@ -13,21 +14,23 @@ body, #root {
   width: 100%;
   height: 100%;
 }
-.app__sidebar {
+.sidebar {
   overflow: hidden;
   display: flex;
   flex: 2.5 1;
   flex-direction: column;
   background: burlywood;
 }
-.app__gamespace {
-  overflow: hidden;
+.game {
+
   display: flex;
   flex: 9.5 5;
   flex-direction: column;
   background: lightsteelblue;
+  min-height: 100%;
 }
-.sidebar {
+.sidebar__container {
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
@@ -78,30 +81,40 @@ body, #root {
 .sidebar__row-footer {
   flex: 3 1 10vh;
 }
-.gamespace__table {
+.game__table {
   margin: 1vh 1vh .5vh 1vh;
   border: 1px solid black;
   flex: 9 2 74vh;
 }
-.gametable {
+/*.game__hand {*/
+/*  display: flex;*/
+/*  flex-wrap: wrap;*/
+/*  height: 100%;*/
+/*  width: 100%;*/
+/*  align-items: center;*/
+/*  justify-content: center;*/
+/*}*/
+
+.game__hand {
   display: flex;
-  flex-wrap: wrap;
-  height: 100%;
-  width: 100%;
   align-items: center;
   justify-content: center;
+  max-height: 33%;
+  margin: .5vh 1vh 1vh 1vh;
+  border: 1px solid black;
+  flex: 1 1 23vh;
+
 }
 
 .gif__list {
-  width: 80%;
+  width: 100%;
   display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
+  align-items: center;
+
   list-style: none;
+  padding: 0 0;
 }
 
-.gamespace__hand {
-  margin: .5vh 1vh 1vh 1vh;
-  border: 1px solid black;
-  flex: 3 1 23vh;
-}
+

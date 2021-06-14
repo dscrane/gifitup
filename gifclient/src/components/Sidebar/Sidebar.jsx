@@ -3,8 +3,8 @@ import { SidebarList, SidebarFooter, SidebarHeader } from "./components";
 
 const Sidebar = ({ socket }) => {
   return (
-    <div className="app__sidebar">
-      <div className="sidebar">
+    <div className="sidebar">
+      <div className="sidebar__container">
         <div className="sidebar__row sidebar__row-header">
           <SidebarHeader />
         </div>

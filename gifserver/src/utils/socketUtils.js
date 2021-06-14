@@ -11,17 +11,17 @@ export const randomId = (prefix) => {
 export const getSockets = (sockets) => {
   let connectedNames = [];
   for (const socket of sockets) {
-    connectedNames.push({ socketId: socket.id, ...socket.data })
+    connectedNames.push({ socketId: socket.id, offset: sockets.indexOf(socket), ...socket.data })
   }
   return connectedNames;
 }
 
-export const createPlayerObject = (name, room, isHost=false) => ({
+export const createPlayerObject = (name, room, socketId, isHost=false) => ({
   isHost,
+  socketId,
   roomId: room,
   playerId: randomId("P"),
   playerName: name
-
 })
 
 export const updatePlayerObjects = (currentPlayerObject, updates) => {

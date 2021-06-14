@@ -5,6 +5,12 @@ import socket from "../config/socket";
 import { basePlayerState, baseSessionState } from "./baseStates";
 
 const emitterStore = (set) => ({
+  fetchPlayersEmitter: async (roomId) => {
+    console.info("[FETCH_PLAYERS_EMIT]: fetching players in ", roomId, "...");
+    await socket.emit("fetch-players", roomId, (data) =>
+      console.log("[FETCH_PLAYERS_EMIT]: ", data)
+    );
+  },
   createSessionEmitter: async (playerName) => {
     console.info("[CREATE_SESSION_EMIT]: adding player...", playerName);
     await socket.emit("create-room", playerName, (data) => {
@@ -39,6 +45,7 @@ const emitterStore = (set) => ({
 const gameStore = (set) => ({
   session: { ...baseSessionState },
   players: [],
+  thisPlayer: {},
   initializeSession: () => {
     set((state) => {
       console.info("[INITIALIZE_SESSION]:", true);
@@ -61,24 +68,41 @@ const gameStore = (set) => ({
       };
     });
   },
-  removePlayer: (playerId) => {
-    console.info("[REMOVE_PLAYER]:", playerId);
+  // setThisPlayer: (thisPlayer) => {
+  //   set((state) => {
+  //     console.info("[SET_THIS_PLAYER]: ", thisPlayer);
+  //     return {
+  //       thisPlayer: {
+  //         ...state.thisPlayer,
+  //       },
+  //     };
+  //   });
+  // },
+  updateThisPlayer: ({ thisPlayer }) => {
     set((state) => {
+      console.info("[UPDATE_THIS_PLAYER]: ", thisPlayer);
       return {
-        players: state.players.filter((player) => player.id !== playerId),
+        thisPlayer: {
+          ...basePlayerState,
+          ...thisPlayer,
+          ...state.thisPlayer,
+        },
       };
     });
   },
   fetchPlayerList: (players) => {
     console.info("[FETCH_PLAYERS]: ", players);
-    const playerObjects = players.map((player) => ({
-      ...player,
-      ...basePlayerState,
-    }));
+    const playerObjects = players.map((player) => {
+      console.log(player);
+      return {
+        ...player,
+        ...basePlayerState,
+        searchOffset: players.indexOf(player),
+      };
+    });
     set((state) => {
       return {
         ...state,
-        session: { ...state.session, inProgress: true },
         players: [...state.players, ...playerObjects],
       };
     });
@@ -88,6 +112,14 @@ const gameStore = (set) => ({
     set((state) => {
       return {
         players: [...players],
+      };
+    });
+  },
+  removePlayer: (playerId) => {
+    console.info("[REMOVE_PLAYER]:", playerId);
+    set((state) => {
+      return {
+        players: state.players.filter((player) => player.id !== playerId),
       };
     });
   },
@@ -113,6 +145,6 @@ const giffyStore = (set) => ({
     });
   },
 });
-export const useGameStore = create(devtools(gameStore, "gameStore"));
+export const useSessionStore = create(devtools(gameStore, "gameStore"));
 export const useEmitterStore = create(devtools(emitterStore, "emitterStore"));
 export const useGiffyStore = create(devtools(giffyStore, "giffyStore"));

@@ -1,7 +1,7 @@
 const defaultParams = {
   search: {
     sort: "relevant",
-    limit: 100,
+    limit: 7,
     offset: 0,
     rating: "r",
     type: "gifs",
@@ -11,7 +11,7 @@ const defaultParams = {
     rating: "g",
   },
   trending: {
-    limit: 100,
+    limit: 7,
     offset: 0,
     rating: "g",
     type: "gifs",
@@ -19,7 +19,7 @@ const defaultParams = {
   },
 };
 
-export async function giphyCategory(gf, category) {
+export async function giphyCategory(gf, category, params) {
   const { data: gifs } = await gf.gifs(category);
   return gifs;
 }

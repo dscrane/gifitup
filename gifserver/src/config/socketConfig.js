@@ -8,12 +8,21 @@ export const socketConfig =  (io) => {
   io.disconnectSockets(true)
   io.on("connection", async socket => {
     log.socket(socket.id, `connected`)
+    socket.emit("connection-success", socket.id)
+
+    socket.on("fetch-players", async (roomId, callback) => {
+      const players = getSockets(await io.in(roomId).fetchSockets())
+      callback('fetching players....')
+      socket.emit("player-list", players)
+    })
+
     socket.on("create-room", async (name, callback) => {
       // Create random roomId
       const roomId = randomId("R");
       log.socket(roomId,` has been created`)
       // Add relevant information to socket object
-      socket.data = {...createPlayerObject(name, roomId, true)}
+      socket.data = { ...createPlayerObject(name, roomId, socket.id, true) }
+      socket.emit('update-this-player', {thisPlayer: {...socket.data, }})
 
       // Join newly created room and send acknowledgement
       await socket.join(roomId);
@@ -22,22 +31,29 @@ export const socketConfig =  (io) => {
 
       // Collect player objects of connected sockets
       const players = getSockets(await io.in(roomId).fetchSockets())
-
       // Emit event to update client state
       io.to(roomId).emit('room-created',
         {session: {roomId}},
-        {players: players}
+        {players: players},
       )
     })
     socket.on("join-room", async (name, roomId, callback) => {
-      // Add relevant information to socket object
-      socket.data = {...createPlayerObject(name, roomId)}
+       // Add relevant information to socket object
+      socket.data = {...createPlayerObject(name, roomId, socket.id)}
+
+
       // Join newly created room and send acknowledgement
       await socket.join(roomId);
       log.socket(socket.id, `has joined room`, roomId)
       callback(`${roomId} created`)
+
+      const players = getSockets(await io.in(roomId).fetchSockets());
+      socket.data.queryOffset = (players.length - 1) * 7;
+
+
+      socket.emit('update-this-player', {thisPlayer: {...socket.data, }})
       // Collect player objects of connected sockets
-      const players = getSockets(await io.in(roomId).fetchSockets())
+      socket.emit('playerList', { players: players }, )
       // Emit event to update client state
       io.to(roomId).emit('player-joined', { players: players })
     })

@@ -10,7 +10,7 @@ export const fetchFromGiphy = (gf, category, query, params) => {
     case "after hours":
       return giphySearch(gf, query, params);
     case "memes":
-      return giphyCategory(gf, query, params);
+      return giphySearch(gf, query, params);
     case "trending":
       return giphyTrending(gf, params);
     case "random":

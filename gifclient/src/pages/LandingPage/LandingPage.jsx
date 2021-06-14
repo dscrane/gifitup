@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { useEmitterStore, useGameStore } from "../../store/store";
+import { useEmitterStore, useSessionStore } from "../../store/store";
 
 export const LandingPage = () => {
   const [playerName, setPlayerName] = useState("");
   const [gameName, setGameName] = useState("");
   const [createGame, toggleCreateGame] = useState(true);
-  const [initializeSession] = useGameStore((state) => [
+  const [initializeSession] = useSessionStore((state) => [
     state.initializeSession,
   ]);
   const [createSessionEmitter, joinSessionEmitter] = useEmitterStore(
