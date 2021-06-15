@@ -140,7 +140,7 @@ const giffyStore = (set) => ({
     console.log("[SESSION_GIFS]: ", gifs);
     set((state) => {
       return {
-        sessionGifs: [...state.sessionGifs, ...gifs],
+        sessionGifs: [...gifs],
       };
     });
   },

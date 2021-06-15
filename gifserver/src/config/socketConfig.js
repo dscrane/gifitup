@@ -22,6 +22,7 @@ export const socketConfig =  (io) => {
       log.socket(roomId,` has been created`)
       // Add relevant information to socket object
       socket.data = { ...createPlayerObject(name, roomId, socket.id, true) }
+      socket.data.queryOffset = 0;
       socket.emit('update-this-player', {thisPlayer: {...socket.data, }})
 
       // Join newly created room and send acknowledgement

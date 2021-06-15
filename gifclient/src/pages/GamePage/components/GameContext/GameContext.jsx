@@ -10,6 +10,7 @@ export const GameContext = () => {
   const [
     session,
     players,
+    thisPlayer,
     setThisPlayer,
     updateThisPlayer,
     fetchPlayerList,
@@ -19,6 +20,7 @@ export const GameContext = () => {
   ] = useSessionStore((state) => [
     state.session,
     state.players,
+    state.thisPlayer,
     state.setThisPlayer,
     state.updateThisPlayer,
     state.fetchPlayerList,
@@ -80,7 +82,7 @@ export const GameContext = () => {
   return (
     <>
       <Sidebar />
-      <GameContainer />
+      <GameContainer thisPlayer={thisPlayer} />
     </>
   );
 };
