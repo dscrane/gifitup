@@ -86,35 +86,30 @@ body, #root {
   border: 1px solid black;
   flex: 9 2 74vh;
 }
-/*.game__hand {*/
-/*  display: flex;*/
-/*  flex-wrap: wrap;*/
-/*  height: 100%;*/
-/*  width: 100%;*/
-/*  align-items: center;*/
-/*  justify-content: center;*/
-/*}*/
 
 .game__hand {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   max-height: 33%;
   margin: .5vh 1vh 1vh 1vh;
   border: 1px solid black;
   flex: 1 1 23vh;
-
 }
-
-.gif__list {
+.giphy__list {
   width: 100%;
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-evenly;
   align-items: center;
-
   list-style: none;
   padding: 0 0;
+}
+.ff-canvas {
+  border-radius: .35rem;
+}
+.ff-image {
+  border-radius: .35rem;
 }
 
 

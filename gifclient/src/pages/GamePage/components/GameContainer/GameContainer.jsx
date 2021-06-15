@@ -13,7 +13,7 @@ export const GameContainer = ({ thisPlayer }) => {
   );
   useEffect(() => {
     const createGiffySession = async () => {
-      console.log(thisPlayer);
+      console.log(thisPlayer.queryOffset);
       const gf = new GiphyFetch("ENiNvfm90KcAX4An2sM8ajbvtg3R6v18");
       setGiffySDK(gf);
       let params;
