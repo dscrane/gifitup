@@ -7,20 +7,18 @@ import { basePlayerState, baseSessionState } from "./baseStates";
 const emitterStore = (set) => ({
   fetchPlayersEmitter: async (roomId) => {
     console.info("[FETCH_PLAYERS_EMIT]: fetching players in ", roomId, "...");
-    await socket.emit("fetch-players", roomId, (data) =>
-      console.log("[FETCH_PLAYERS_EMIT]: ", data)
-    );
+    await socket.emit("fetch-players", roomId, (data) => console.log(data));
   },
-  createSessionEmitter: async (playerName) => {
-    console.info("[CREATE_SESSION_EMIT]: adding player...", playerName);
-    await socket.emit("create-room", playerName, (data) => {
-      console.log("[CREATE_SESSION_ACK]: ", data);
+  createSessionEmitter: async (roomId = null) => {
+    console.info("[CREATE_SESSION_EMIT]: creating room...");
+    await socket.emit("create-room", roomId, (data) => {
+      console.log(data);
     });
   },
-  joinSessionEmitter: async (playerName, roomName) => {
-    console.info("[JOIN_ROOM_EMIT]: ", playerName, "joining", roomName);
-    await socket.emit("join-room", playerName, roomName, (data) => {
-      console.log("[JOIN_ROOM_ACK]: ", data);
+  joinSessionEmitter: async (name, roomId) => {
+    console.info("[JOIN_ROOM_EMIT]: ", "joining", roomId);
+    await socket.emit("join-room", name, roomId, (data) => {
+      console.log(data);
     });
   },
   updateSessionEmitter: async () => {},
@@ -45,14 +43,15 @@ const emitterStore = (set) => ({
 const gameStore = (set) => ({
   session: { ...baseSessionState },
   players: [],
-  thisPlayer: {},
-  initializeSession: () => {
+  thisPlayer: null,
+  initializeSession: (roomId) => {
     set((state) => {
       console.info("[INITIALIZE_SESSION]:", true);
       return {
         session: {
           ...state.session,
           initialized: true,
+          roomId: roomId || state.session.roomId,
         },
       };
     });
@@ -68,22 +67,22 @@ const gameStore = (set) => ({
       };
     });
   },
-  // setThisPlayer: (thisPlayer) => {
-  //   set((state) => {
-  //     console.info("[SET_THIS_PLAYER]: ", thisPlayer);
-  //     return {
-  //       thisPlayer: {
-  //         ...state.thisPlayer,
-  //       },
-  //     };
-  //   });
-  // },
+  setThisPlayer: (thisPlayer) => {
+    set((state) => {
+      console.info("[SET_THIS_PLAYER]: ", thisPlayer);
+      return {
+        thisPlayer: {
+          ...thisPlayer,
+          ...basePlayerState,
+        },
+      };
+    });
+  },
   updateThisPlayer: ({ thisPlayer }) => {
     set((state) => {
       console.info("[UPDATE_THIS_PLAYER]: ", thisPlayer);
       return {
         thisPlayer: {
-          ...basePlayerState,
           ...thisPlayer,
           ...state.thisPlayer,
         },
@@ -93,11 +92,9 @@ const gameStore = (set) => ({
   fetchPlayerList: (players) => {
     console.info("[FETCH_PLAYERS]: ", players);
     const playerObjects = players.map((player) => {
-      console.log(player);
       return {
         ...player,
         ...basePlayerState,
-        searchOffset: players.indexOf(player),
       };
     });
     set((state) => {
@@ -123,24 +120,43 @@ const gameStore = (set) => ({
       };
     });
   },
-});
-
-const giffyStore = (set) => ({
-  giffySDK: null,
-  sessionGifs: [],
-  setGiffySDK: (giffyFetch) => {
-    console.log("[GIFFY_SDK]: ", giffyFetch);
+  toggleFetchFromGiphy: (bool) => {
+    console.info("[TOGGLE_FETCH]: ", bool);
     set((state) => {
       return {
-        giffySDK: giffyFetch,
+        session: {
+          ...state.session,
+          fetchFromGiphy: bool,
+        },
       };
     });
   },
-  updateSessionGifs: (gifs) => {
-    console.log("[SESSION_GIFS]: ", gifs);
+});
+
+const giffyStore = (set) => ({
+  giphyInstance: null,
+  sessionGifs: [],
+  setGiphySDK: (giffyFetch) => {
+    console.log("[GIFFY_SDK]: ", giffyFetch);
+    set((state) => {
+      return {
+        giphyInstance: giffyFetch,
+      };
+    });
+  },
+  setInitialGifs: (gifs) => {
+    console.log("[INITIAL_SESSION_GIFS]: ", gifs);
     set((state) => {
       return {
         sessionGifs: [...gifs],
+      };
+    });
+  },
+  updateSessionGifs: (gif) => {
+    console.log("[SESSION_GIFS]: ", gif);
+    set((state) => {
+      return {
+        sessionGifs: [...state.sessionGifs, ...gif],
       };
     });
   },

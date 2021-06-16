@@ -25,6 +25,7 @@ export async function giphyCategory(gf, category, params) {
 }
 
 export async function giphySearch(gf, query, params) {
+  console.log(gf.search);
   const { data: gifs } = await gf.search(query, {
     ...defaultParams.search,
     ...params,

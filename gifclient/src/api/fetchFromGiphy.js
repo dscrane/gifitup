@@ -5,16 +5,17 @@ import {
   giphyRandom,
 } from "./giphyQueries";
 
-export const fetchFromGiphy = (gf, category, query, params) => {
+export const giphyFetch = async (gf, category, params) => {
+  console.log("giphy", gf, category, params);
   switch (category) {
     case "after hours":
-      return giphySearch(gf, query, params);
+      return await giphySearch(gf, category, params);
     case "memes":
-      return giphySearch(gf, query, params);
+      return await giphySearch(gf, category, params);
     case "trending":
-      return giphyTrending(gf, params);
+      return await giphyTrending(gf, params);
     case "random":
-      return giphyRandom(gf, query, params);
+      return await giphyRandom(gf, category, params);
     default:
       console.log("broken switch");
   }

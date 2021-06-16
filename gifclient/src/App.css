@@ -22,7 +22,6 @@ body, #root {
   background: burlywood;
 }
 .game {
-
   display: flex;
   flex: 9.5 5;
   flex-direction: column;

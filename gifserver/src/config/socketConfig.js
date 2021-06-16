@@ -8,19 +8,20 @@ export const socketConfig =  (io) => {
   io.disconnectSockets(true)
   io.on("connection", async socket => {
     log.socket(socket.id, `connected`)
+    console.log(socket.data)
     socket.emit("connection-success", socket.id)
 
     socket.on("fetch-players", async (roomId, callback) => {
       const players = getSockets(await io.in(roomId).fetchSockets())
-      callback('fetching players....')
+      callback("[FETCH_PLAYERS_ACK]: fetching players....")
       socket.emit("player-list", players)
     })
 
-    socket.on("create-room", async (name, callback) => {
+    socket.on("create-room", async (room, callback) => {
       // Create random roomId
-      const roomId = randomId("R");
+      const roomId = room ? room : randomId("R");
       log.socket(roomId,` has been created`)
-      // Add relevant information to socket object
+      /*// Add relevant information to socket object
       socket.data = { ...createPlayerObject(name, roomId, socket.id, true) }
       socket.data.queryOffset = 0;
       socket.emit('update-this-player', {thisPlayer: {...socket.data, }})
@@ -28,14 +29,13 @@ export const socketConfig =  (io) => {
       // Join newly created room and send acknowledgement
       await socket.join(roomId);
       log.socket(socket.id, `has joined room`, roomId)
-      callback(`${roomId} created`)
+      callback(`[CREATE_SESSION_ACK]: ${roomId} created`)
 
       // Collect player objects of connected sockets
-      const players = getSockets(await io.in(roomId).fetchSockets())
+      const players = getSockets(await io.in(roomId).fetchSockets())*/
       // Emit event to update client state
-      io.to(roomId).emit('room-created',
-        {session: {roomId}},
-        {players: players},
+      socket.emit('room-created',
+        {data: { roomId }}
       )
     })
     socket.on("join-room", async (name, roomId, callback) => {
@@ -46,7 +46,7 @@ export const socketConfig =  (io) => {
       // Join newly created room and send acknowledgement
       await socket.join(roomId);
       log.socket(socket.id, `has joined room`, roomId)
-      callback(`${roomId} created`)
+      callback(`[JOIN_SESSION_ACK]: ${roomId} joined`)
 
       const players = getSockets(await io.in(roomId).fetchSockets());
       socket.data.queryOffset = (players.length - 1) * 7;

@@ -4,5 +4,7 @@ export const baseSessionState = {
   id: randomId("S"),
   initialized: false,
   roomId: null,
-  fetchConnections: false,
+  fetchFromGiphy: false,
+  inGameSession: false,
+  inProgress: false,
 };
