@@ -6,7 +6,6 @@ import {
 } from "./giphyQueries";
 
 export const giphyFetch = async (gf, category, params) => {
-  console.log("giphy", gf, category, params);
   switch (category) {
     case "after hours":
       return await giphySearch(gf, category, params);

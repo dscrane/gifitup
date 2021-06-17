@@ -2,7 +2,6 @@ const defaultParams = {
   search: {
     sort: "relevant",
     limit: 7,
-    offset: 0,
     rating: "r",
     type: "gifs",
     lang: "en",
@@ -25,18 +24,17 @@ export async function giphyCategory(gf, category, params) {
 }
 
 export async function giphySearch(gf, query, params) {
-  console.log(gf.search);
   const { data: gifs } = await gf.search(query, {
+    offset: params,
     ...defaultParams.search,
-    ...params,
   });
   return gifs;
 }
 
 export async function giphyTrending(gf, params) {
   const { data: gifs } = await gf.trending({
-    ...defaultParams.trending,
     ...params,
+    ...defaultParams.trending,
   });
   return gifs;
 }

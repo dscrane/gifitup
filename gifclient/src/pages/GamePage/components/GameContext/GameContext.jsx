@@ -11,10 +11,10 @@ export const GameContext = () => {
   const [
     session,
     players,
-    thisPlayer,
+    localPlayer,
     fetchFromGiphy,
-    setThisPlayer,
-    updateThisPlayer,
+    setLocalPlayer,
+    updateLocalPlayer,
     fetchPlayerList,
     updatePlayerList,
     updateSession,
@@ -23,10 +23,10 @@ export const GameContext = () => {
   ] = useSessionStore((state) => [
     state.session,
     state.players,
-    state.thisPlayer,
+    state.localPlayer,
     state.fetchFromGiphy,
-    state.setThisPlayer,
-    state.updateThisPlayer,
+    state.setLocalPlayer,
+    state.updateLocalPlayer,
     state.fetchPlayerList,
     state.updatePlayerList,
     state.updateSession,
@@ -35,40 +35,36 @@ export const GameContext = () => {
   ]);
 
   useEffect(() => {
-    socket.on("room-created", async ({ data }) => {
-      console.info(`[SOCKET]: created `, data);
-      updateSession(data);
-      // console.log(data.session);
-      // console.log(!session.fetchFromGiphy);
-      // await updateSession(data.session);
-      // await fetchPlayerList(data.players);
-      // await toggleFetchFromGiphy(true);
+    socket.on("room-created", async (roomId) => {
+      console.info("[IO]: created", roomId);
+      updateSession({ roomId });
     });
     if (session.initialized) {
-      socket.on("update-this-player", ({ thisPlayer }) => {
-        console.info(`[SOCKET]: updated`, thisPlayer);
-        setThisPlayer(thisPlayer);
+      socket.on("set-local-player", (localPlayer) => {
+        console.info("[IO]: local player...", localPlayer.playerName);
+        setLocalPlayer(localPlayer);
       });
-
+      socket.on("update-local-player", (localPlayer) => {
+        console.info("[IO]: updated local player...", localPlayer.playerName);
+        updateLocalPlayer(localPlayer);
+      });
       socket.on("player-list", (players) => {
-        console.log("[SOCKET]: room contains these players: ", players);
+        console.info("[IO]: current players...", players);
         updatePlayerList(players);
       });
-      socket.on("joined-room", async ({ thisPlayer }) => {
-        console.log("[SOCKET]: ThisPlayer: ", thisPlayer);
-        await updateSession({ inGameSession: true });
-        await setThisPlayer(thisPlayer);
-        // await toggleFetchFromGiphy(true);
-      });
-      socket.on("player-joined", async ({ players }) => {
-        console.log(
-          "[SOCKET]: player ",
-          players[players.length - 1],
-          " joined"
+      socket.on("player-joined", async (players) => {
+        console.info(
+          "[IO]: player joined...",
+          players[players.length - 1].playerName
         );
         await updatePlayerList(players);
       });
-
+      // not needed at this time
+      // socket.on("joined-room", async ({ localPlayer }) => {
+      //   console.log("[SOCKET]: joining: ", localPlayer);
+      //   await updateSession({ inGameSession: true });
+      //   await setLocalPlayer(localPlayer);
+      // });
       return () => socket.disconnect();
     }
   }, [
@@ -76,8 +72,8 @@ export const GameContext = () => {
     updateSession,
     fetchPlayerList,
     removePlayer,
-    setThisPlayer,
-    updateThisPlayer,
+    setLocalPlayer,
+    updateLocalPlayer,
     updatePlayerList,
     toggleFetchFromGiphy,
     fetchFromGiphy,

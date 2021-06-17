@@ -6,33 +6,25 @@ import { basePlayerState, baseSessionState } from "./baseStates";
 
 const emitterStore = (set) => ({
   fetchPlayersEmitter: async (roomId) => {
-    console.info("[FETCH_PLAYERS_EMIT]: fetching players in ", roomId, "...");
+    console.info("[IO_em]: fetching players in... ", roomId);
     await socket.emit("fetch-players", roomId, (data) => console.log(data));
   },
-  createSessionEmitter: async (roomId = null) => {
-    console.info("[CREATE_SESSION_EMIT]: creating room...");
-    await socket.emit("create-room", roomId, (data) => {
-      console.log(data);
-    });
+  createSessionEmitter: async (roomId) => {
+    console.info("[IO_em]: creating session... ", roomId || "initially");
+    await socket.emit("create-room", roomId);
   },
   joinSessionEmitter: async (name, roomId) => {
-    console.info("[JOIN_ROOM_EMIT]: ", "joining", roomId);
-    await socket.emit("join-room", name, roomId, (data) => {
-      console.log(data);
-    });
+    console.info("[IO_em]: joining room... ", roomId);
+    await socket.emit("join-room", name, roomId);
   },
   updateSessionEmitter: async () => {},
-  beginGameEmitter: async () => {
-    console.info("[BEGIN_GAME_ACK]: setting session to inProgress = true");
-    await socket.emit("begin-game", true, (data) => {
-      console.log("[BEGIN_GAME_ACK]: ", data);
-    });
-  },
+  // beginGameEmitter: async () => {
+  //   console.info("[BEGIN_GAME_ACK]: setting session to inProgress = true");
+  //   await socket.emit("begin-game", true);
+  // },
   disconnectSessionEmitter: async (playerName, roomName) => {
-    console.log("[LEAVE_ROOM_EMIT]: ", playerName, "leaving", roomName);
-    await socket.emit("disconnect", playerName, roomName, (data) => {
-      console.log("[LEAVE_ROOM_ACK]: ", data);
-    });
+    console.log("[IO_em]: leaving room...", roomName);
+    await socket.emit("disconnect", playerName, roomName);
   },
   endSessionEmitter: async (roomName) => {
     console.log("[END_SESSION_EMIT]: ", roomName, "session is ending");
@@ -40,10 +32,10 @@ const emitterStore = (set) => ({
   },
 });
 
-const gameStore = (set) => ({
+const sessionStore = (set) => ({
   session: { ...baseSessionState },
   players: [],
-  thisPlayer: null,
+  localPlayer: null,
   initializeSession: (roomId) => {
     set((state) => {
       console.info("[INITIALIZE_SESSION]:", true);
@@ -67,24 +59,23 @@ const gameStore = (set) => ({
       };
     });
   },
-  setThisPlayer: (thisPlayer) => {
+  setLocalPlayer: (localPlayer) => {
     set((state) => {
-      console.info("[SET_THIS_PLAYER]: ", thisPlayer);
+      console.info("[SET_THIS_PLAYER]: ", localPlayer.playerName);
       return {
-        thisPlayer: {
-          ...thisPlayer,
-          ...basePlayerState,
+        localPlayer: {
+          ...localPlayer,
         },
       };
     });
   },
-  updateThisPlayer: ({ thisPlayer }) => {
+  updateLocalPlayer: (localPlayer) => {
     set((state) => {
-      console.info("[UPDATE_THIS_PLAYER]: ", thisPlayer);
+      console.info("[UPDATE_THIS_PLAYER]: ", localPlayer.playerName);
       return {
-        thisPlayer: {
-          ...thisPlayer,
-          ...state.thisPlayer,
+        localPlayer: {
+          ...localPlayer,
+          ...state.localPlayer,
         },
       };
     });
@@ -94,7 +85,6 @@ const gameStore = (set) => ({
     const playerObjects = players.map((player) => {
       return {
         ...player,
-        ...basePlayerState,
       };
     });
     set((state) => {
@@ -105,7 +95,7 @@ const gameStore = (set) => ({
     });
   },
   updatePlayerList: (players) => {
-    console.info("[UPDATE_PLAYER]: ", players);
+    console.info("[UPDATE_PLAYER_LIST]: ", players);
     set((state) => {
       return {
         players: [...players],
@@ -137,7 +127,7 @@ const giffyStore = (set) => ({
   giphyInstance: null,
   sessionGifs: [],
   setGiphySDK: (giffyFetch) => {
-    console.log("[GIFFY_SDK]: ", giffyFetch);
+    console.log("[GIF]: setting api instance...");
     set((state) => {
       return {
         giphyInstance: giffyFetch,
@@ -145,7 +135,7 @@ const giffyStore = (set) => ({
     });
   },
   setInitialGifs: (gifs) => {
-    console.log("[INITIAL_SESSION_GIFS]: ", gifs);
+    console.log("[GIF]: setting initial gifs...");
     set((state) => {
       return {
         sessionGifs: [...gifs],
@@ -153,7 +143,7 @@ const giffyStore = (set) => ({
     });
   },
   updateSessionGifs: (gif) => {
-    console.log("[SESSION_GIFS]: ", gif);
+    console.log("[GIF]: updating session gifs...");
     set((state) => {
       return {
         sessionGifs: [...state.sessionGifs, ...gif],
@@ -161,6 +151,6 @@ const giffyStore = (set) => ({
     });
   },
 });
-export const useSessionStore = create(devtools(gameStore, "gameStore"));
+export const useSessionStore = create(devtools(sessionStore, "sessionStore"));
 export const useEmitterStore = create(devtools(emitterStore, "emitterStore"));
 export const useGiffyStore = create(devtools(giffyStore, "giffyStore"));

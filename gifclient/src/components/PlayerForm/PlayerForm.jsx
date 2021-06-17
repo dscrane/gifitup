@@ -17,7 +17,6 @@ export const PlayerForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(playerName);
     joinSessionEmitter(playerName, session.roomId);
     toggleFetchFromGiphy(true);
   };

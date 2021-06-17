@@ -8,9 +8,9 @@ import { fetchFromGiphy } from "../../../../api/fetchFromGiphy";
 import { useGiffyStore, useSessionStore } from "../../../../store/store";
 
 export const GameContainer = () => {
-  const [thisPlayer, fetchFromGiphy, toggleFetchFromGiphy] = useSessionStore(
+  const [localPlayer, fetchFromGiphy, toggleFetchFromGiphy] = useSessionStore(
     (state) => [
-      state.thisPlayer,
+      state.localPlayer,
       state.fetchFromGiphy,
       state.toggleFetchFromGiphy,
     ]
@@ -26,10 +26,10 @@ export const GameContainer = () => {
 
   return (
     <div className="game">
-      {thisPlayer ? (
+      {localPlayer ? (
         <>
           <GameTable />
-          <GameHand thisPlayer={thisPlayer} />
+          <GameHand localPlayer={localPlayer} />
         </>
       ) : (
         <PlayerForm />
