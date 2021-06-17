@@ -4,6 +4,8 @@ import { useSessionStore } from "../../../../store/store";
 import socket from "../../../../config/socket";
 import { Sidebar } from "../../../../components/Sidebar";
 import { GameContainer } from "../GameContainer";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 /* ------ */
 
 export const GameContext = () => {
@@ -79,9 +81,9 @@ export const GameContext = () => {
     fetchFromGiphy,
   ]);
   return (
-    <>
+    <DndProvider debugMode={true} backend={HTML5Backend}>
       <Sidebar />
       <GameContainer />
-    </>
+    </DndProvider>
   );
 };
