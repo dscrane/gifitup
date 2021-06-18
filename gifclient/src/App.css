@@ -104,6 +104,9 @@ body, #root {
   list-style: none;
   padding: 0 0;
 }
+.react-freezeframe {
+  z-index: 10;
+}
 .ff-canvas {
   border-radius: .35rem;
 }

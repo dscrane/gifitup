@@ -17,6 +17,10 @@ const emitterStore = (set) => ({
     console.info("[IO_em]: joining room... ", roomId);
     await socket.emit("join-room", name, roomId);
   },
+  gifToTableEmitter: async (gifId) => {
+    console.log("[IO_em]: moving gif...", gifId);
+    await socket.emit("new-table-gif", gifId);
+  },
   updateSessionEmitter: async () => {},
   // beginGameEmitter: async () => {
   //   console.info("[BEGIN_GAME_ACK]: setting session to inProgress = true");
@@ -126,6 +130,7 @@ const sessionStore = (set) => ({
 const giffyStore = (set) => ({
   giphyInstance: null,
   sessionGifs: [],
+  tableGifs: [],
   setGiphySDK: (giffyFetch) => {
     console.log("[GIF]: setting api instance...");
     set((state) => {
@@ -147,6 +152,14 @@ const giffyStore = (set) => ({
     set((state) => {
       return {
         sessionGifs: [...state.sessionGifs, ...gif],
+      };
+    });
+  },
+  removeGifFromHand: (gifId) => {
+    set((state) => {
+      const currentGifs = state.sessionGifs;
+      return {
+        sessionGifs: [...currentGifs.filter((gif) => gif.id !== gifId)],
       };
     });
   },
