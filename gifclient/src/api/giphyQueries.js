@@ -18,10 +18,7 @@ const defaultParams = {
   },
 };
 
-export async function giphyCategory(gf, category, params) {
-  const { data: gifs } = await gf.gifs(category);
-  return gifs;
-}
+//
 
 export async function giphySearch(gf, query, params) {
   const { data: gifs } = await gf.search(query, {
@@ -31,6 +28,17 @@ export async function giphySearch(gf, query, params) {
   return gifs;
 }
 
+export async function singleGif(gf, gifId) {
+  console.log('single gif', gf)
+  const { data: gif } = await gf.gif(gifId);
+  return gif;
+}
+
+/*
+export async function giphyCategory(gf, category, params) {
+  const { data: gifs } = await gf.gifs(category);
+  return gifs;
+}
 export async function giphyTrending(gf, params) {
   const { data: gifs } = await gf.trending({
     ...params,
@@ -47,3 +55,4 @@ export async function giphyRandom(gf, tag, params) {
   });
   return gifs;
 }
+*/

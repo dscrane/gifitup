@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
-  useGiffyStore,
+  useGiphyStore,
   useSessionStore,
   useEmitterStore,
 } from "../../../../store/store";
@@ -18,7 +18,7 @@ export const GameHand = ({ localPlayer }) => {
   ]);
 
   const [giphyInstance, sessionGifs, setInitialGifs, removeGifFromHand] =
-    useGiffyStore((state) => [
+    useGiphyStore((state) => [
       state.giphyInstance,
       state.sessionGifs,
       state.setInitialGifs,

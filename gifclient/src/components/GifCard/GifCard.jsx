@@ -4,7 +4,7 @@
 import React, { Component, createRef, useState } from "react";
 import ReactFreezeframe from "react-freezeframe";
 import freezeframe from "freezeframe";
-import { useGiffyStore } from "../../store/store";
+import { useGiphyStore } from "../../store/store";
 /* ------ */
 
 class GifCard extends Component {

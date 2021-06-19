@@ -60,5 +60,8 @@ export const socketConfig =  (io) => {
 
       io.to(socket.data.roomId).emit("game-begun", { players: updatedPlayers })
     })
+    socket.on('new-table-gif', async (gifId) => {
+      io.to(socket.data.roomId).emit("add-gif", { gifId: gifId })
+    })
   })
 }

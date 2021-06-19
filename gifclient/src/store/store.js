@@ -127,7 +127,7 @@ const sessionStore = (set) => ({
   },
 });
 
-const giffyStore = (set) => ({
+const giphyStore = (set) => ({
   giphyInstance: null,
   sessionGifs: [],
   tableGifs: [],
@@ -155,6 +155,14 @@ const giffyStore = (set) => ({
       };
     });
   },
+  addGifToTable: (gif) => {
+    console.log("[GIF]: updating table gifs...");
+    set(state => {
+      return {
+        tableGifs: [gif, ...state.tableGifs]
+      }
+    })
+  },
   removeGifFromHand: (gifId) => {
     set((state) => {
       const currentGifs = state.sessionGifs;
@@ -166,4 +174,4 @@ const giffyStore = (set) => ({
 });
 export const useSessionStore = create(devtools(sessionStore, "sessionStore"));
 export const useEmitterStore = create(devtools(emitterStore, "emitterStore"));
-export const useGiffyStore = create(devtools(giffyStore, "giffyStore"));
+export const useGiphyStore = create(devtools(giphyStore, "giphyStore"));

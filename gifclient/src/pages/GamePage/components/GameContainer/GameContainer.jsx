@@ -5,7 +5,7 @@ import { GameTable } from "../GameTable";
 import { GameHand } from "../GameHand";
 
 import { fetchFromGiphy } from "../../../../api/fetchFromGiphy";
-import { useGiffyStore, useSessionStore } from "../../../../store/store";
+import { useGiphyStore, useSessionStore } from "../../../../store/store";
 
 export const GameContainer = () => {
   const [localPlayer, fetchFromGiphy, toggleFetchFromGiphy] = useSessionStore(
@@ -15,7 +15,7 @@ export const GameContainer = () => {
       state.toggleFetchFromGiphy,
     ]
   );
-  const setGiphySDK = useGiffyStore((state) => state.setGiphySDK);
+  const setGiphySDK = useGiphyStore((state) => state.setGiphySDK);
   useEffect(() => {
     const initializeGiphyInstance = async () => {
       const gf = await new GiphyFetch("ENiNvfm90KcAX4An2sM8ajbvtg3R6v18");

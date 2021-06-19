@@ -1,15 +1,18 @@
 /* IMPORTS */
 import React, { useEffect } from "react";
-import { useSessionStore } from "../../../../store/store";
-import socket from "../../../../config/socket";
-import { Sidebar } from "../../../../components/Sidebar";
-import { GameContainer } from "../GameContainer";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import socket from "../../../../config/socket";
+import { useSessionStore, useGiphyStore } from "../../../../store/store";
+import { giphyFetch } from "../../../../api/fetchFromGiphy";
+import { Sidebar } from "../../../../components/Sidebar";
+import { GameContainer } from "../GameContainer";
+import { GiphyFetch } from '@giphy/js-fetch-api'
 /* ------ */
 
 export const GameContext = () => {
-  // const [fetchFromGiphy] = useSessionStore((state) => [state.fetchFromGiphy]);
+
+
   const [
     session,
     players,
@@ -36,6 +39,13 @@ export const GameContext = () => {
     state.toggleFetchFromGiphy,
   ]);
 
+  const [giphyInstance, addGifToTable] =
+    useGiphyStore((state) => [
+      state.giphyInstance,
+      state.addGifToTable,
+    ]);
+  console.log(giphyInstance)
+
   useEffect(() => {
     socket.on("room-created", async (roomId) => {
       console.info("[IO]: created", roomId);
@@ -61,6 +71,13 @@ export const GameContext = () => {
         );
         await updatePlayerList(players);
       });
+      socket.on("add-gif", async ({ gifId }) => {
+        console.log('gigfhasdkjf', gifId)
+        const gf = await new GiphyFetch("ENiNvfm90KcAX4An2sM8ajbvtg3R6v18");
+        const { data: gif } = await gf.gif(gifId)
+        console.log(gif)
+        addGifToTable(gif);
+      })
       // not needed at this time
       // socket.on("joined-room", async ({ localPlayer }) => {
       //   console.log("[SOCKET]: joining: ", localPlayer);
@@ -79,6 +96,7 @@ export const GameContext = () => {
     updatePlayerList,
     toggleFetchFromGiphy,
     fetchFromGiphy,
+    addGifToTable,
   ]);
   return (
     <DndProvider debugMode={true} backend={HTML5Backend}>
