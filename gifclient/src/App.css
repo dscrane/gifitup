@@ -84,6 +84,8 @@ body, #root {
   margin: 1vh 1vh .5vh 1vh;
   border: 1px solid black;
   flex: 9 2 74vh;
+  display: flex;
+  list-style: none;
 }
 
 .game__hand {

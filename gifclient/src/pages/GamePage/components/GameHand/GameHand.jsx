@@ -4,6 +4,7 @@ import {
   useSessionStore,
   useEmitterStore,
 } from "../../../../store/store";
+import { gf } from "../../../../api/giphySDK";
 import { GifCard } from "../../../../components/GifCard";
 import { giphyFetch } from "../../../../api/fetchFromGiphy";
 import freezeframe from "freezeframe";
@@ -17,19 +18,19 @@ export const GameHand = ({ localPlayer }) => {
     state.gifToTableEmitter,
   ]);
 
-  const [giphyInstance, sessionGifs, setInitialGifs, removeGifFromHand] =
-    useGiphyStore((state) => [
-      state.giphyInstance,
+  const [sessionGifs, setInitialGifs, removeGifFromHand] = useGiphyStore(
+    (state) => [
       state.sessionGifs,
       state.setInitialGifs,
       state.removeGifFromHand,
-    ]);
+    ]
+  );
 
   useEffect(() => {
     // Fetch initial set of gifs for player's hand
     const fetchGifs = async () => {
       const initialGifs = await giphyFetch(
-        giphyInstance,
+        gf,
         "memes",
         localPlayer.queryOffset
       );

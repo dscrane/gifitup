@@ -11,7 +11,6 @@ export const randomId = (prefix) => {
 export const getSockets = (sockets) => {
   let connectedNames = [];
   for (const socket of sockets) {
-    console.log(socket.data)
     connectedNames.push({ socketId: socket.id, ...socket.data })
   }
   return connectedNames.length ? connectedNames : null;

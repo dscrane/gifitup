@@ -7,7 +7,7 @@ import { basePlayerState, baseSessionState } from "./baseStates";
 const emitterStore = (set) => ({
   fetchPlayersEmitter: async (roomId) => {
     console.info("[IO_em]: fetching players in... ", roomId);
-    await socket.emit("fetch-players", roomId, (data) => console.log(data));
+    await socket.emit("fetch-players", roomId, (data) => console.info(data));
   },
   createSessionEmitter: async (roomId) => {
     console.info("[IO_em]: creating session... ", roomId || "initially");
@@ -18,7 +18,7 @@ const emitterStore = (set) => ({
     await socket.emit("join-room", name, roomId);
   },
   gifToTableEmitter: async (gifId) => {
-    console.log("[IO_em]: moving gif...", gifId);
+    console.info("[IO_em]: moving gif...", gifId);
     await socket.emit("new-table-gif", gifId);
   },
   updateSessionEmitter: async () => {},
@@ -27,11 +27,11 @@ const emitterStore = (set) => ({
   //   await socket.emit("begin-game", true);
   // },
   disconnectSessionEmitter: async (playerName, roomName) => {
-    console.log("[IO_em]: leaving room...", roomName);
+    console.info("[IO_em]: leaving room...", roomName);
     await socket.emit("disconnect", playerName, roomName);
   },
   endSessionEmitter: async (roomName) => {
-    console.log("[END_SESSION_EMIT]: ", roomName, "session is ending");
+    console.info("[END_SESSION_EMIT]: ", roomName, "session is ending");
     await socket.emit("end-session", roomName);
   },
 });
@@ -69,6 +69,7 @@ const sessionStore = (set) => ({
       return {
         localPlayer: {
           ...localPlayer,
+          ...state.localPlayer,
         },
       };
     });
@@ -128,11 +129,10 @@ const sessionStore = (set) => ({
 });
 
 const giphyStore = (set) => ({
-  giphyInstance: null,
   sessionGifs: [],
   tableGifs: [],
   setGiphySDK: (giffyFetch) => {
-    console.log("[GIF]: setting api instance...");
+    console.info("[GIF]: setting api instance...");
     set((state) => {
       return {
         giphyInstance: giffyFetch,
@@ -140,7 +140,7 @@ const giphyStore = (set) => ({
     });
   },
   setInitialGifs: (gifs) => {
-    console.log("[GIF]: setting initial gifs...");
+    console.info("[GIF]: setting initial gifs...");
     set((state) => {
       return {
         sessionGifs: [...gifs],
@@ -148,7 +148,7 @@ const giphyStore = (set) => ({
     });
   },
   updateSessionGifs: (gif) => {
-    console.log("[GIF]: updating session gifs...");
+    console.info("[GIF]: updating session gifs...");
     set((state) => {
       return {
         sessionGifs: [...state.sessionGifs, ...gif],
@@ -156,14 +156,16 @@ const giphyStore = (set) => ({
     });
   },
   addGifToTable: (gif) => {
-    console.log("[GIF]: updating table gifs...");
-    set(state => {
+    console.info("[GIF]: updating table gifs...");
+    set((state) => {
       return {
-        tableGifs: [gif, ...state.tableGifs]
-      }
-    })
+        tableGifs: [gif, ...state.tableGifs],
+      };
+    });
   },
   removeGifFromHand: (gifId) => {
+    console.info("[GIF]: removing gif from hand...", gifId);
+
     set((state) => {
       const currentGifs = state.sessionGifs;
       return {

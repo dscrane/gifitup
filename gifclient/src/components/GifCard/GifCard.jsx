@@ -13,17 +13,20 @@ class GifCard extends Component {
     this.gif = { ...props.gif };
     this.gifToTableEmitter = props.gifToTableEmitter;
     this.removeGifFromHand = props.removeGifFromHand;
+    this.isTableGif = props.isTableGif;
     this.freeze = createRef();
   }
   handleMove() {
     const gifId = this.freeze.current.props.id;
-    console.log(gifId);
     this.gifToTableEmitter(gifId);
     this.removeGifFromHand(gifId);
   }
   render() {
     return (
-      <li className="gif__item" onClick={this.handleMove.bind(this)}>
+      <li
+        className="gif__item"
+        onClick={this.isTableGif ? null : this.handleMove.bind(this)}
+      >
         <ReactFreezeframe
           className="freeze__container"
           ref={this.freeze}
