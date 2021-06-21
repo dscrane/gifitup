@@ -1,1 +1,1 @@
-export { default as JudgedCard } from "./JudgedCard";
+export * from "./JudgedCard";

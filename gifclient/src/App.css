@@ -20,6 +20,7 @@ body, #root {
   flex: 2.5 1;
   flex-direction: column;
   background: burlywood;
+  max-width: 325px;
 }
 .game {
   display: flex;
@@ -110,10 +111,26 @@ body, #root {
   z-index: 10;
 }
 .ff-canvas {
-  border-radius: .35rem;
+  border-radius: .25rem;
 }
 .ff-image {
-  border-radius: .35rem;
+  border-radius: .25rem;
 }
 
+.card__judge {
+  background: black;
+  border-radius: .2rem;
+  margin: auto;
+  height: 30%;
+  width: 20%;
+  max-width: 175px;
+  align-self: center;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  display: flex;
+}
+
+.judge__text {
+  margin: 1rem;
+  color: white;
+}
 
