@@ -4,11 +4,11 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import socket from "../../../../config/socket";
 import { useSessionStore, useGiphyStore } from "../../../../store/store";
-import { gf } from "../../../../api/giphySDK";
-import { giphyFetch } from "../../../../api/fetchFromGiphy";
+import { gf } from "../../../../config/giphySDK";
 import { Sidebar } from "../../../../components/Sidebar";
 import { GameContainer } from "../GameContainer";
-import { GiphyFetch } from "@giphy/js-fetch-api";
+import { giphyFetch } from "../../../../api/fetchFromGiphy";
+
 /* ------ */
 
 export const GameContext = () => {
@@ -67,7 +67,7 @@ export const GameContext = () => {
       });
       socket.on("add-gif", async ({ gifId }) => {
         console.info("[IO]: adding gif to table...", gifId);
-        const { data: gif } = await gf.gif(gifId);
+        const gif = await giphyFetch(gf, "byId", null, gifId);
         addGifToTable(gif);
       });
       // not needed at this time

@@ -1,20 +1,32 @@
-import {
-  giphySearch,
-  singleGif,
+const searchParams = {
+  sort: "relevant",
+  rating: "r",
+  limit: 7,
+  type: "gifs",
+  lang: "en",
+};
 
-} from "./giphyQueries";
-
-export const giphyFetch = async (gf, category, params) => {
-  switch (category) {
-    case "unique":
-      return await singleGif(gf, params);
-    case "memes":
-      return await giphySearch(gf, category, params);
+export const giphyFetch = async (gf, type, category, params) => {
+  let resp;
+  switch (type) {
+    case "byId":
+      resp = await gf.gifs([params]);
+      break;
+    case "single":
+      resp = await gf.random({ tag: category });
+      break;
     case "trending":
-      // return await giphyTrending(gf, params);
-    case "random":
-      // return await giphyRandom(gf, category, params);
+      resp = await gf.trending({ offset: params, ...searchParams });
+      break;
+    case "category":
+      resp = await gf.search(category, {
+        offset: params,
+        ...searchParams,
+      });
+      break;
     default:
-      console.log("broken switch");
+      console.log("[__ERROR__]: giphyFetch switch");
+      resp = { data: null };
   }
+  return resp.data;
 };
