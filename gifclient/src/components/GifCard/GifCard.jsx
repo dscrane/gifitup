@@ -3,8 +3,6 @@
 
 import React, { Component, createRef, useState } from "react";
 import ReactFreezeframe from "react-freezeframe";
-import freezeframe from "freezeframe";
-import { useGiphyStore } from "../../store/store";
 /* ------ */
 
 class GifCard extends Component {
@@ -22,6 +20,7 @@ class GifCard extends Component {
     this.removeGifFromHand(gifId);
   }
   render() {
+
     return (
       <li
         className="gif__item"

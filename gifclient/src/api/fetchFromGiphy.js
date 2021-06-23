@@ -13,7 +13,7 @@ export const giphyFetch = async (gf, type, category, params) => {
       resp = await gf.gifs([params]);
       break;
     case "single":
-      resp = await gf.random({ tag: category });
+      resp = await gf.random({ tag: category, type: 'gifs' });
       break;
     case "trending":
       resp = await gf.trending({ offset: params, ...searchParams });

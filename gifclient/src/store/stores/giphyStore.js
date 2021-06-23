@@ -1,3 +1,6 @@
+import { giphyFetch } from '../../api/fetchFromGiphy'
+import { gf } from '../../config/giphySDK'
+
 export const giphyStore = (set) => ({
   giphyCategory: "memes",
   sessionGifs: [],
@@ -11,7 +14,13 @@ export const giphyStore = (set) => ({
       };
     });
   },
-  setInitialGifs: (gifs) => {
+  setInitialGifs: async (giphyCategory, queryOffset) => {
+    const gifs = await giphyFetch(
+      gf,
+      "category",
+      giphyCategory,
+      queryOffset
+    );
     console.info("[GIF]: setting initial gifs...", gifs);
     set((state) => {
       return {
@@ -19,8 +28,13 @@ export const giphyStore = (set) => ({
       };
     });
   },
-  pullNewGif: (gif) => {
-    console.info("[GIF]: fetching new gif...");
+  pullNewGif: async (giphyCategory) => {
+    const gif = await giphyFetch(
+      gf,
+      "single",
+      giphyCategory,
+    );
+    console.info("[GIF]: fetching new gif...", gif);
     set((state) => {
       return {
         sessionGifs: [gif, ...state.sessionGifs],

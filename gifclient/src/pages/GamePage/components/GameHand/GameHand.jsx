@@ -3,6 +3,7 @@ import { useGiphyStore, useEmitterStore } from "../../../../store/store";
 import { gf } from "../../../../config/giphySDK";
 import { GifCard } from "../../../../components/GifCard";
 import { giphyFetch } from "../../../../api/fetchFromGiphy";
+import { GameCTA } from '../../../../components/GameCTA'
 
 export const GameHand = ({ localPlayer }) => {
   const [gifToTableEmitter] = useEmitterStore((state) => [
@@ -15,6 +16,7 @@ export const GameHand = ({ localPlayer }) => {
     setInitialGifs,
     removeGifFromHand,
     handleNoGifReturn,
+    pullNewGif
   ] = useGiphyStore((state) => [
     state.giphyCategory,
     state.sessionGifs,
@@ -22,21 +24,13 @@ export const GameHand = ({ localPlayer }) => {
     state.setInitialGifs,
     state.removeGifFromHand,
     state.handleNoGifReturn,
+    state.pullNewGif
   ]);
   const [placeholder, setPlaceholder] = useState(<div>Loading...</div>);
 
   useEffect(() => {
     // Fetch initial set of gifs for player's hand
-    const fetchGifs = async () => {
-      const initialGifs = await giphyFetch(
-        gf,
-        "category",
-        giphyCategory,
-        localPlayer.queryOffset
-      );
-      initialGifs ? setInitialGifs(initialGifs) : handleNoGifReturn();
-    };
-    fetchGifs();
+       setInitialGifs(giphyCategory, localPlayer.queryOffset);
   }, []);
 
   useEffect(() => {
@@ -60,6 +54,7 @@ export const GameHand = ({ localPlayer }) => {
           removeGifFromHand={removeGifFromHand}
         />
       ))}
+      {sessionGifs.length < 7 ? <GameCTA fn={pullNewGif} text={"Draw Gif"} /> : null}
     </ul>
   );
 

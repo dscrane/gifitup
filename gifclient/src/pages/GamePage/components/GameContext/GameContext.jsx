@@ -58,16 +58,13 @@ export const GameContext = () => {
         console.info("[IO]: current players...", players);
         updatePlayerList(players);
       });
-      socket.on("player-joined", async (players) => {
-        console.info(
-          "[IO]: player joined...",
-          players[players.length - 1].playerName
-        );
-        await updatePlayerList(players);
+      socket.on("player-joined",  (players) => {
+        console.info("[IO]: player joined...", socket.playerName);
+        updatePlayerList(players);
       });
       socket.on("add-gif", async ({ gifId }) => {
         console.info("[IO]: adding gif to table...", gifId);
-        const gif = await giphyFetch(gf, "byId", null, gifId);
+        const [gif] = await giphyFetch(gf, "byId", null, gifId);
         addGifToTable(gif);
       });
       // not needed at this time
