@@ -38,7 +38,10 @@ export const GameContext = () => {
     state.toggleFetchFromGiphy,
   ]);
 
-  const [addGifToTable] = useGiphyStore((state) => [state.addGifToTable]);
+  const [giphyType, addGifToTable] = useGiphyStore((state) => [
+    state.giphyType,
+    state.addGifToTable,
+  ]);
 
   useEffect(() => {
     socket.on("room-created", async (roomId) => {
@@ -58,21 +61,15 @@ export const GameContext = () => {
         console.info("[IO]: current players...", players);
         updatePlayerList(players);
       });
-      socket.on("player-joined",  (players) => {
-        console.info("[IO]: player joined...", socket.playerName);
+      socket.on("player-joined", (players, name) => {
+        console.info("[IO]: player joined...", name);
         updatePlayerList(players);
       });
-      socket.on("add-gif", async ({ gifId }) => {
+      socket.on("add-gif", async (gifId) => {
         console.info("[IO]: adding gif to table...", gifId);
-        const [gif] = await giphyFetch(gf, "byId", null, gifId);
+        const [gif] = await giphyFetch(gf, giphyType, "byId", null, gifId);
         addGifToTable(gif);
       });
-      // not needed at this time
-      // socket.on("joined-room", async ({ localPlayer }) => {
-      //   console.log("[SOCKET]: joining: ", localPlayer);
-      //   await updateSession({ inGameSession: true });
-      //   await setLocalPlayer(localPlayer);
-      // });
       return () => socket.disconnect();
     }
   }, [

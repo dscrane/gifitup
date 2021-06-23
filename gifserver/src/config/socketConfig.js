@@ -41,6 +41,7 @@ export const socketConfig =  (io) => {
       const queryOffset = players ? players.length * 7 : 0;
       // Create the new players object
       socket.data = {...createPlayerObject(name, roomId, socket.id, queryOffset)}
+      socket.username = name;
       // Join newly created room and send acknowledgement
       await socket.join(roomId);
       log.socket(socket.id, `has joined room`, roomId)
@@ -52,7 +53,7 @@ export const socketConfig =  (io) => {
       const connectedPlayers = players ? [localPlayer, ...players] : [ {...localPlayer } ]
       socket.emit('player-list', connectedPlayers)
       // Emit event to update client state
-      io.to(roomId).emit('player-joined', connectedPlayers)
+      io.to(roomId).emit('player-joined', connectedPlayers, name)
     })
     socket.on("begin-game", async (status) => {
       const players = getSockets(await io.in(socket.data.roomId).fetchSockets());
@@ -61,7 +62,7 @@ export const socketConfig =  (io) => {
       io.to(socket.data.roomId).emit("game-begun", { players: updatedPlayers })
     })
     socket.on('new-table-gif', async (gifId) => {
-      io.to(socket.data.roomId).emit("add-gif", { gifId: gifId })
+      io.to(socket.data.roomId).emit("add-gif", gifId)
     })
   })
 }

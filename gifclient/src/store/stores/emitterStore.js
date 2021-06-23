@@ -17,17 +17,12 @@ export const emitterStore = (set) => ({
     console.info("[IO_em]: moving gif...", gifId);
     await socket.emit("new-table-gif", gifId);
   },
-  updateSessionEmitter: async () => {},
-  // beginGameEmitter: async () => {
-  //   console.info("[BEGIN_GAME_ACK]: setting session to inProgress = true");
-  //   await socket.emit("begin-game", true);
-  // },
   disconnectSessionEmitter: async (playerName, roomName) => {
     console.info("[IO_em]: leaving room...", roomName);
     await socket.emit("disconnect", playerName, roomName);
   },
   endSessionEmitter: async (roomName) => {
-    console.info("[END_SESSION_EMIT]: ", roomName, "session is ending");
+    console.info("[IO_em]: ", "ending session...", roomName);
     await socket.emit("end-session", roomName);
   },
 });

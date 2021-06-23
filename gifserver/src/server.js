@@ -21,10 +21,10 @@ const io = new Server(httpServer, {
 const PORT = 5500 || process.env.PORT;
 
 
-app.get("/", (req, res) => {
-  console.log("endpoint hit");
-  res.send({ resp: "Hello World" });
-});
+// app.get("/", (req, res) => {
+//   console.log("endpoint hit");
+//   res.send({ resp: "Hello World" });
+// });
 
 socketConfig(io);
 

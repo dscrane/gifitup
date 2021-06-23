@@ -20,7 +20,6 @@ class GifCard extends Component {
     this.removeGifFromHand(gifId);
   }
   render() {
-
     return (
       <li
         className="gif__item"

@@ -6,20 +6,24 @@ const searchParams = {
   lang: "en",
 };
 
-export const giphyFetch = async (gf, type, category, params) => {
+export const giphyFetch = async (gf, type, query, category, params) => {
+  //TODO:
+  // add ability to set either 'gifs' or 'images'
+
   let resp;
-  switch (type) {
+  switch (query) {
     case "byId":
       resp = await gf.gifs([params]);
       break;
-    case "single":
-      resp = await gf.random({ tag: category, type: 'gifs' });
+    case "random":
+      resp = await gf.random({ tag: category, type });
       break;
     case "trending":
-      resp = await gf.trending({ offset: params, ...searchParams });
+      resp = await gf.trending({ type, offset: params, ...searchParams });
       break;
-    case "category":
+    case "search":
       resp = await gf.search(category, {
+        type,
         offset: params,
         ...searchParams,
       });

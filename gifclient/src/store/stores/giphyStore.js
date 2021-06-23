@@ -1,26 +1,14 @@
-import { giphyFetch } from '../../api/fetchFromGiphy'
-import { gf } from '../../config/giphySDK'
+import { giphyFetch } from "../../api/fetchFromGiphy";
+import { gf } from "../../config/giphySDK";
 
 export const giphyStore = (set) => ({
   giphyCategory: "memes",
+  giphyType: "gifs",
   sessionGifs: [],
   tableGifs: [],
   noGifs: false,
-  setGiphySDK: (giffyFetch) => {
-    console.info("[GIF]: setting api instance...");
-    set((state) => {
-      return {
-        giphyInstance: giffyFetch,
-      };
-    });
-  },
-  setInitialGifs: async (giphyCategory, queryOffset) => {
-    const gifs = await giphyFetch(
-      gf,
-      "category",
-      giphyCategory,
-      queryOffset
-    );
+  setInitialGifs: async (category, type, offset) => {
+    const gifs = await giphyFetch(gf, type, "search", category, offset);
     console.info("[GIF]: setting initial gifs...", gifs);
     set((state) => {
       return {
@@ -28,13 +16,9 @@ export const giphyStore = (set) => ({
       };
     });
   },
-  pullNewGif: async (giphyCategory) => {
-    const gif = await giphyFetch(
-      gf,
-      "single",
-      giphyCategory,
-    );
-    console.info("[GIF]: fetching new gif...", gif);
+  pullNewGif: async (giphyCategory, giphyType) => {
+    const gif = await giphyFetch(gf, giphyType, "random", giphyCategory);
+    console.info("[GIF]: fetching new gif...", gif.id);
     set((state) => {
       return {
         sessionGifs: [gif, ...state.sessionGifs],
@@ -63,6 +47,13 @@ export const giphyStore = (set) => ({
     set((state) => {
       return {
         noGifs: true,
+      };
+    });
+  },
+  toggleGiphyType: (type) => {
+    set((state) => {
+      return {
+        giphyType: type,
       };
     });
   },
