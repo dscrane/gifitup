@@ -4,9 +4,8 @@
     <option name="isActive" value="true" />
     <option name="useProjectFrame" value="true" />
     <option name="settingsSelectedTab" value="1" />
-    <option name="highlightColor" value="e7ff7a" />
-    <option name="projectFrameColor" value="6dff69" />
+    <option name="projectFrameColor" value="5a6bff" />
     <option name="useCustomTitle" value="true" />
-    <option name="customTitle" value="CLIENT" />
+    <option name="customTitle" value="SERVER" />
   </component>
 </project>

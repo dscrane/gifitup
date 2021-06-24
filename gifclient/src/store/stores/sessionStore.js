@@ -84,7 +84,9 @@ export const sessionStore = (set) => ({
     console.info("[REMOVE_PLAYER]:", playerId);
     set((state) => {
       return {
-        players: state.players.filter((player) => player.id !== playerId),
+        players: [
+          ...state.players.filter((player) => player.playerId !== playerId),
+        ],
       };
     });
   },

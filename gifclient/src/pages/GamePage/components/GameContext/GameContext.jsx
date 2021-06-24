@@ -2,20 +2,17 @@
 import React, { useEffect } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { giphyFetch } from "../../../../api/fetchFromGiphy";
+import { gf } from "../../../../config/giphySDK";
 import socket from "../../../../config/socket";
 import { useSessionStore, useGiphyStore } from "../../../../store/store";
-import { gf } from "../../../../config/giphySDK";
 import { Sidebar } from "../../../../components/Sidebar";
 import { GameContainer } from "../GameContainer";
-import { giphyFetch } from "../../../../api/fetchFromGiphy";
-
 /* ------ */
 
 export const GameContext = () => {
   const [
     session,
-    players,
-    localPlayer,
     fetchFromGiphy,
     setLocalPlayer,
     updateLocalPlayer,
@@ -26,8 +23,6 @@ export const GameContext = () => {
     toggleFetchFromGiphy,
   ] = useSessionStore((state) => [
     state.session,
-    state.players,
-    state.localPlayer,
     state.fetchFromGiphy,
     state.setLocalPlayer,
     state.updateLocalPlayer,
@@ -49,6 +44,7 @@ export const GameContext = () => {
       updateSession({ roomId });
     });
     if (session.initialized) {
+      // Session listeners
       socket.on("set-local-player", (localPlayer) => {
         console.info("[IO]: local player...", localPlayer.playerName);
         setLocalPlayer(localPlayer);
@@ -65,13 +61,20 @@ export const GameContext = () => {
         console.info("[IO]: player joined...", name);
         updatePlayerList(players);
       });
+      socket.on("player-left", (playerId, name) => {
+        console.info("[IO]: player left...", name);
+        removePlayer(playerId);
+      });
+      // Giphy listeners
       socket.on("add-gif", async (gifId) => {
         console.info("[IO]: adding gif to table...", gifId);
         const [gif] = await giphyFetch(gf, giphyType, "byId", null, gifId);
         addGifToTable(gif);
       });
-      return () => socket.disconnect();
     }
+    return function cleanup() {
+      socket.disconnect();
+    };
   }, [
     session.initialized,
     updateSession,
@@ -85,9 +88,9 @@ export const GameContext = () => {
     addGifToTable,
   ]);
   return (
-    <DndProvider debugMode={true} backend={HTML5Backend}>
+    <>
       <Sidebar />
       <GameContainer />
-    </DndProvider>
+    </>
   );
 };
