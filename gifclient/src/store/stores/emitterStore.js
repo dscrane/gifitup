@@ -1,10 +1,6 @@
 import socket from "../../config/socket";
 
 export const emitterStore = (set) => ({
-  fetchPlayersEmitter: async (roomId) => {
-    console.info("[IO_em]: fetching players in... ", roomId);
-    await socket.emit("fetch-players", roomId, (data) => console.info(data));
-  },
   createSessionEmitter: async (roomId) => {
     console.info("[IO_em]: creating session... ", roomId || "initially");
     await socket.emit("create-room", roomId);

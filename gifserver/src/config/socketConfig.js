@@ -4,21 +4,12 @@ import { log } from "../utils/logs.js"
 
 
 export const socketConfig =  (io) => {
-  // io.socketsLeave("testRoom")
-  // io.disconnectSockets(true)
   io.on("connection", async socket => {
     log.socket(socket.id, `connected`)
-
-
-    socket.on("fetch-players", async (roomId, callback) => {
-      const players = getSockets(await io.in(roomId).fetchSockets())
-      callback("[FETCH_PLAYERS_ACK]: fetching players....")
-      socket.emit("player-list", players)
-    })
     socket.on("create-room", async (room) => {
       // Create random roomId
       const roomId = room ? room : randomId("R");
-      log.socket(roomId,` has been created`);
+      log.socket('',`creating room...`, roomId);
       // Emit event to update client state
       socket.emit('room-created', roomId)
     })
@@ -52,8 +43,11 @@ export const socketConfig =  (io) => {
     socket.on('new-table-gif', async (gifId) => {
       io.to(socket.data.roomId).emit("add-gif", gifId)
     })
-    socket.on('disconnecting', (reason) => {
-      console.log('disconnecting socket', socket.data.playerId)
+    socket.on('disconnecting', () => {
+      if (JSON.stringify(socket.data) === "{}") {
+        return;
+      }
+      log.socket(socket.id,'disconnecting socket', socket.data.roomId)
       io.to(socket.data.roomId).emit('player-left', socket.data.playerId, socket.data.playerName)
     })
   })

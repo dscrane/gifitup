@@ -20,7 +20,7 @@ const cyan = (log) => {
   console.log(`\x1b[36m${log}\x1b[0m`);
 };
 
-const socket = (data="", log, data2="") => console.log(`${chalk.yellow('[SOCKET]:')} ${chalk.cyan(data)} ${log} ${chalk.cyan(data2)}`)
+const socket = (data="", log, data2="") => console.log(`${chalk.yellow('[SOCKET]: ')} ${chalk.green(data)} ${log} ${chalk.cyan(data2)}`)
 const app = (log) => console.log(`${chalk.gray('[APP]:')} ${log}`)
 export const log = {
   red,
