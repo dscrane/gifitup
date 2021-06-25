@@ -6,7 +6,7 @@ export const emitterStore = (set) => ({
     await socket.emit("create-room", roomId);
   },
   joinSessionEmitter: async (name, roomId) => {
-    console.info("[IO_em]: joining room... ", roomId);
+    console.info("[IO_em]: joining room... ", roomId, name);
     await socket.emit("join-room", name, roomId);
   },
   gifToTableEmitter: async (gifId) => {

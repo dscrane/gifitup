@@ -25,6 +25,7 @@ export const createPlayerObject = (name, room, socketId, queryOffset) => ({
   score: 0,
   isJudge: false,
   inGameRoom: false,
+  isConnected: true
 })
 
 export const updatePlayerObjects = (currentPlayerObject, updates) => {

@@ -5,8 +5,6 @@ const baseSessionState = {
   initialized: false,
   roomId: null,
   fetchFromGiphy: false,
-  inGameSession: false,
-  inProgress: false,
 };
 
 export const sessionStore = (set) => ({
@@ -20,7 +18,8 @@ export const sessionStore = (set) => ({
         session: {
           ...state.session,
           initialized: true,
-          roomId: roomId || state.session.roomId,
+          roomId: roomId,
+          shareURL: "http://localhost:3000/join/" + roomId,
         },
       };
     });
@@ -58,20 +57,6 @@ export const sessionStore = (set) => ({
       };
     });
   },
-  fetchPlayerList: (players) => {
-    console.info("[FETCH_PLAYERS]: ", players);
-    const playerObjects = players.map((player) => {
-      return {
-        ...player,
-      };
-    });
-    set((state) => {
-      return {
-        ...state,
-        players: [...state.players, ...playerObjects],
-      };
-    });
-  },
   updatePlayerList: (players) => {
     console.info("[UPDATE_PLAYER_LIST]: ", players);
     set((state) => {
@@ -101,4 +86,19 @@ export const sessionStore = (set) => ({
       };
     });
   },
+  // Currently unused
+  // fetchPlayerList: (players) => {
+  //   console.info("[FETCH_PLAYERS]: ", players);
+  //   const playerObjects = players.map((player) => {
+  //     return {
+  //       ...player,
+  //     };
+  //   });
+  //   set((state) => {
+  //     return {
+  //       ...state,
+  //       players: [...state.players, ...playerObjects],
+  //     };
+  //   });
+  // },
 });

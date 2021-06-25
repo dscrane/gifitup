@@ -6,6 +6,7 @@ import { log } from "../utils/logs.js"
 export const socketConfig =  (io) => {
   io.on("connection", async socket => {
     log.socket(socket.id, `connected`)
+    console.log(io.of('/').adapter.rooms)
     socket.on("create-room", async (room) => {
       // Create random roomId
       const roomId = room ? room : randomId("R");
@@ -14,6 +15,7 @@ export const socketConfig =  (io) => {
       socket.emit('room-created', roomId)
     })
     socket.on("join-room", async (name, roomId) => {
+      console.log(name, roomId)
        // Add relevant information to socket object
       const players = getSockets(await io.in(roomId).fetchSockets());
       // Set the query offset based on position in list of players
@@ -32,6 +34,7 @@ export const socketConfig =  (io) => {
       const connectedPlayers = players ? [localPlayer, ...players] : [ {...localPlayer } ]
       socket.emit('player-list', connectedPlayers)
       // Emit event to update client state
+      console.log('emitting player-joined')
       io.to(roomId).emit('player-joined', connectedPlayers, name)
     })
     socket.on("begin-game", async (status) => {

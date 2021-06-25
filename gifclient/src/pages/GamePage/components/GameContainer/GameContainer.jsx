@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useSessionStore } from "../../../../store/store";
-import { PlayerForm } from "../../../../components/PlayerForm";
 import { GameTable } from "../GameTable";
 import { GameHand } from "../GameHand";
 
@@ -9,13 +8,11 @@ export const GameContainer = () => {
 
   return (
     <div className="game">
+      <GameTable />
       {localPlayer ? (
-        <>
-          <GameTable />
-          <GameHand localPlayer={localPlayer} />
-        </>
+        <GameHand localPlayer={localPlayer} />
       ) : (
-        <PlayerForm />
+        <div>Loading...</div>
       )}
     </div>
   );
