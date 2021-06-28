@@ -1,14 +1,12 @@
 import React from "react";
-import history from "../../../config/history";
 import { GameCTA } from "../../GameCTA";
+import { useSessionStore } from "../../../store/store";
 
 const SidebarFooter = () => {
+  const shareURL = useSessionStore((state) => state.session.shareURL);
   const handleClick = () => {
-    const shareURL = history.location.pathname;
-    console.log(window.location);
-    navigator.clipboard.writeText(
-      window.location.origin + shareURL.replace("games", "join")
-    );
+    console.log(shareURL);
+    navigator.clipboard.writeText(shareURL);
   };
   return (
     <div>

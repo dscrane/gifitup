@@ -5,6 +5,9 @@ import { GifCard } from "../../../../components/GifCard";
 import { giphyFetch } from "../../../../api/fetchFromGiphy";
 import { GameCTA } from "../../../../components/GameCTA";
 
+// TODO:
+//  make gifs unclickable when the isJudge === true
+
 export const GameHand = ({ localPlayer }) => {
   const [gifToTableEmitter] = useEmitterStore((state) => [
     state.gifToTableEmitter,

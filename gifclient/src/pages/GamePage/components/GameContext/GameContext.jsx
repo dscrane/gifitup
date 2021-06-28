@@ -16,6 +16,7 @@ export const GameContext = () => {
     updatePlayerList,
     removePlayer,
     toggleFetchFromGiphy,
+    updateSession,
   ] = useSessionStore((state) => [
     state.fetchFromGiphy,
     state.setLocalPlayer,
@@ -23,6 +24,7 @@ export const GameContext = () => {
     state.updatePlayerList,
     state.removePlayer,
     state.toggleFetchFromGiphy,
+    state.updateSession,
   ]);
 
   const [giphyType, addGifToTable] = useGiphyStore((state) => [
@@ -35,6 +37,7 @@ export const GameContext = () => {
     socket.on("set-local-player", (localPlayer) => {
       console.info("[IO]: local player...", localPlayer.playerName);
       setLocalPlayer(localPlayer);
+      updateSession({ isStarted: true });
     });
     socket.on("update-local-player", (localPlayer) => {
       console.info("[IO]: updated local player...", localPlayer.playerName);
@@ -58,9 +61,9 @@ export const GameContext = () => {
       const [gif] = await giphyFetch(gf, giphyType, "byId", null, gifId);
       addGifToTable(gif);
     });
-    return function cleanup() {
-      socket.disconnect();
-    };
+    // return function cleanup() {
+    //   socket.disconnect();
+    // };
   }, [
     removePlayer,
     setLocalPlayer,

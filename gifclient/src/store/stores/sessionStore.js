@@ -1,14 +1,33 @@
 import { randomId } from "../../utils";
 
+// STATE UPDATE BREAKDOWN / THINK THROUGH
+// id: set at initial load
+// isInitialized: TRUE after landing on ../register route
+// inRoom: TRUE after a player is created with name and socket room has been joined
+// isStarted: TRUE after first judge hits 'Start Game' button
+// *handDisabled: TRUE while a player is the judge OR has already played a card
+// *roundInProgress: TRUE while players are choosing cards and while judge is choosing winner
+// *displayJudgingModal: TRUE while the current judge is displaying and choosing a winner for the round
+
+// * -> set to FALSE when the moveToNextRound() fires
+
 const baseSessionState = {
   id: randomId("S"),
-  initialized: false,
-  roomId: null,
+  isInitialized: false,
+  inRoom: false,
+  isStarted: false,
+  roundInProgress: false,
   fetchFromGiphy: false,
+  handDisabled: false,
+  displayJudgingModal: false,
+  roomId: null,
+  shareURL: null,
 };
 
 export const sessionStore = (set) => ({
-  session: { ...baseSessionState },
+  session: {
+    ...baseSessionState,
+  },
   players: [],
   localPlayer: null,
   initializeSession: (roomId) => {
@@ -17,9 +36,9 @@ export const sessionStore = (set) => ({
       return {
         session: {
           ...state.session,
-          initialized: true,
+          isInitialized: true,
           roomId: roomId,
-          shareURL: "http://localhost:3000/join/" + roomId,
+          inRoom: true,
         },
       };
     });
@@ -82,6 +101,39 @@ export const sessionStore = (set) => ({
         session: {
           ...state.session,
           fetchFromGiphy: bool,
+        },
+      };
+    });
+  },
+  toggleModalDisplay: (bool) => {
+    console.info("[TOGGLE_MODAL]: ", bool);
+    set((state) => {
+      return {
+        session: {
+          ...state.session,
+          displayJudgingModal: bool,
+        },
+      };
+    });
+  },
+  beginRound: (data) => {
+    console.log("[BEGIN_ROUND]: ");
+    set((state) => {
+      return {
+        ...data,
+        ...state.session,
+      };
+    });
+  },
+  moveToNextRound: () => {
+    console.log("[NEXT_ROUND]: ");
+    set((state) => {
+      return {
+        session: {
+          handDisabled: false,
+          displayJudgingModal: false,
+          roundInProgress: false,
+          ...state.session,
         },
       };
     });

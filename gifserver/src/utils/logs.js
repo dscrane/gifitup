@@ -21,6 +21,7 @@ const cyan = (log) => {
 };
 
 const socket = (data="", log, data2="") => console.log(`${chalk.yellow('[SOCKET]: ')} ${chalk.green(data)} ${log} ${chalk.cyan(data2)}`)
+const room = (roomId, log, data="") => console.log(`[${chalk.cyan(roomId)}]: ${log}`, data)
 const app = (log) => console.log(`${chalk.gray('[APP]:')} ${log}`)
 export const log = {
   red,
@@ -29,5 +30,6 @@ export const log = {
   blue,
   cyan,
   socket,
-  app
+  app,
+  room
 };

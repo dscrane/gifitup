@@ -3,11 +3,11 @@ import { Redirect, Router, Route, Switch } from "react-router-dom";
 import history from "./config/history";
 import { LandingPage, GamePage } from "./pages";
 import { PlayerPage } from "./pages/PlayerPage";
+import { useSessionStore } from "./store/store";
 
 const App = () => {
-  useEffect(() => {
-    history.push("/register");
-  }, []);
+  // TODO:
+  //  Reset state on reload
 
   return (
     <div className="app">
