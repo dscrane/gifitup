@@ -6,14 +6,16 @@ import { PlayerPage } from "./pages/PlayerPage";
 
 const App = () => {
   useEffect(() => {
-    history.push("/");
+    history.push("/register");
   }, []);
 
   return (
     <div className="app">
       <Router history={history}>
         <Switch>
-          <Redirect exact from="/" to="/register" />
+          <Route exact path="/">
+            <Redirect to="/register" />
+          </Route>
           <Redirect push from="/join/:id" to="/register/:id" />
           <Route exact path="/register">
             <LandingPage />
