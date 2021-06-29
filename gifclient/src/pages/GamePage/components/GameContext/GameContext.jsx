@@ -61,9 +61,9 @@ export const GameContext = () => {
       const [gif] = await giphyFetch(gf, giphyType, "byId", null, gifId);
       addGifToTable(gif);
     });
-    // return function cleanup() {
-    //   socket.disconnect();
-    // };
+    return function cleanup() {
+      socket.disconnect();
+    };
   }, [
     removePlayer,
     setLocalPlayer,

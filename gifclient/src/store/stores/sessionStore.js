@@ -1,4 +1,6 @@
 import { randomId } from "../../utils";
+// TODO:
+//  think about separating player state into a new PlayerStore
 
 // STATE UPDATE BREAKDOWN / THINK THROUGH
 // id: set at initial load
@@ -19,7 +21,8 @@ const baseSessionState = {
   roundInProgress: false,
   fetchFromGiphy: false,
   handDisabled: false,
-  displayJudgingModal: false,
+  displayJudgementModal: false,
+  cardSubmitted: false,
   roomId: null,
   shareURL: null,
 };
@@ -111,7 +114,7 @@ export const sessionStore = (set) => ({
       return {
         session: {
           ...state.session,
-          displayJudgingModal: bool,
+          displayJudgementModal: bool,
         },
       };
     });

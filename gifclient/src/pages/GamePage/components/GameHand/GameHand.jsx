@@ -6,7 +6,8 @@ import { giphyFetch } from "../../../../api/fetchFromGiphy";
 import { GameCTA } from "../../../../components/GameCTA";
 
 // TODO:
-//  make gifs unclickable when the isJudge === true
+//  make gifs unclickable when the isJudge === true or gifSubmitted === true
+//  pass the gif id to the GameTable when the gif is submitted
 
 export const GameHand = ({ localPlayer }) => {
   const [gifToTableEmitter] = useEmitterStore((state) => [
