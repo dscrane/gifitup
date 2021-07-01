@@ -13,13 +13,19 @@ import { GameContainer } from "../GameContainer";
 /* ------ */
 
 export const GameContext = () => {
-  const [setLocalPlayer, updateLocalPlayer, updatePlayerList, removePlayer] =
-    usePlayerStore((state) => [
-      state.setLocalPlayer,
-      state.updateLocalPlayer,
-      state.updatePlayerList,
-      state.removePlayer,
-    ]);
+  const [
+    localPlayer,
+    setLocalPlayer,
+    updateLocalPlayer,
+    updatePlayerList,
+    removePlayer,
+  ] = usePlayerStore((state) => [
+    state.localPlayer,
+    state.setLocalPlayer,
+    state.updateLocalPlayer,
+    state.updatePlayerList,
+    state.removePlayer,
+  ]);
   const [fetchFromGiphy, toggleFetchFromGiphy, updateSession] = useSessionStore(
     (state) => [
       state.fetchFromGiphy,
@@ -33,7 +39,7 @@ export const GameContext = () => {
   ]);
 
   useEffect(() => {
-    // Session listeners
+    // Player listeners
     socket.on("set-local-player", (localPlayer) => {
       console.info("[IO]: local player...", localPlayer.playerName);
       setLocalPlayer(localPlayer);
@@ -55,16 +61,38 @@ export const GameContext = () => {
       console.info("[IO]: player left...", name);
       removePlayer(playerId);
     });
+    socket.on("player-is-not-judge", (isJudge) => {
+      console.info("[IO]: player is now judge...", isJudge);
+      updateLocalPlayer(isJudge);
+    });
+    socket.on("player-is-judge", (nextJudge) => {
+      console.info("[IO]: player is judge...", nextJudge);
+      // console.log(localPlayer);
+      if (localPlayer) {
+        updateLocalPlayer(
+          localPlayer.playerId === nextJudge
+            ? { isJudge: true }
+            : { isJudge: false }
+        );
+      }
+    });
+    socket.on("next-round", (nextJudgeId) => {
+      // increment point for round winner
+      // pass judge role
+      // lock judge's hand
+      // pull new center card
+      // reset round timer
+      // hide judgement modal
+      // remove table gifs
+    });
     // Giphy listeners
     socket.on("add-gif", async (gifId) => {
       console.info("[IO]: adding gif to table...", gifId);
       const [gif] = await giphyFetch(gf, giphyType, "byId", null, gifId);
       addGifToTable(gif);
     });
-    return function cleanup() {
-      socket.disconnect();
-    };
   }, [
+    localPlayer,
     removePlayer,
     setLocalPlayer,
     updateLocalPlayer,

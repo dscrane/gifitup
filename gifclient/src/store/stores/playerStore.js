@@ -1,3 +1,19 @@
+// STATE UPDATE BREAKDOWN / THINK THROUGH
+/* LOCAL PLAYER
+  // playerId: randomly generated player id
+  // playerName: user entered name to display in game
+  // socketId: socket.io id created on initial connection
+  // roomId: room id that they are currently in
+  // queryOffset: offset for querying the giphy api
+  // points: current score
+  // isJudge: TRUE when judging a round
+  // inGameRoom: TRUE once the "player-joined" listener fires
+  // isConnected: TRUE once the "set-local-player" listener fires
+*/
+/* PLAYERS
+  // array of player objects for the other players in the current room
+*/
+
 export const playerStore = (set) => ({
   localPlayer: null,
   players: [],
@@ -12,13 +28,13 @@ export const playerStore = (set) => ({
       };
     });
   },
-  updateLocalPlayer: (localPlayer) => {
+  updateLocalPlayer: (updates) => {
     set((state) => {
-      console.info("[UPDATE_THIS_PLAYER]: ", localPlayer.playerName);
+      console.info("[UPDATE_LOCAL_PLAYER]: ", updates);
       return {
         localPlayer: {
-          ...localPlayer,
           ...state.localPlayer,
+          ...updates,
         },
       };
     });

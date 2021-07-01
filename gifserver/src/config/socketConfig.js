@@ -2,6 +2,8 @@ import { randomId, createPlayerObject, updatePlayerObjects, getSockets } from ".
 import {
   createRoomController,
   disconnectController,
+  passJudgeRoleController,
+  // endRoundController,
   joinRoomController,
   newTableGifConroller
 } from "../controllers/socketControllers/index.js";
@@ -25,7 +27,11 @@ export const socketConfig =  (io) => {
 
     })
     socket.on("pass-judge-role", async () => {
-
+      await passJudgeRoleController(io, socket)
+    })
+    socket.on("end-round", async (roomId) => {
+      console.log(roomId)
+      // await endRoundController(io, socket)
     })
     socket.on("end-session", async () => {
 

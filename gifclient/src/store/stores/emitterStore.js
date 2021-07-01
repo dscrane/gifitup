@@ -1,6 +1,6 @@
 import socket from "../../config/socket";
 
-const emitLog = (log, data = "") => console.info("[IO_em]: ", log, data);
+const emitLog = (log, data) => console.info("[IO_em]: ", log, data || " ");
 
 export const emitterStore = (set) => ({
   createSessionEmitter: async () => {
@@ -14,13 +14,17 @@ export const emitterStore = (set) => ({
   gifToTableEmitter: async (gifId) => {
     emitLog("moving gif...", gifId);
     await socket.emit("new-table-gif", gifId);
+    await socket.emit("end-round");
   },
   updateScoreEmitter: async () => {
     emitLog("updating scores...");
     await socket.emit("update-scores");
   },
-  changeJudgeEmitter: async (playerName) => {
-    emitLog("passing judge role to...", playerName);
+  endRoundEmitter: async (roomId) => {
+    socket.emit("end-round", roomId);
+  },
+  changeJudgeEmitter: async () => {
+    emitLog("passing judge role...");
     await socket.emit("pass-judge-role");
   },
   disconnectSessionEmitter: async (playerName, roomName) => {

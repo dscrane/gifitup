@@ -15,7 +15,6 @@ export const GameTable = () => {
   const [displayJudgementModal, toggleModalDisplay] = useSessionStore(
     (state) => [state.displayJudgementModal, state.toggleModalDisplay]
   );
-  console.log(displayJudgementModal);
   const [tableGifs] = useGiphyStore((state) => [state.tableGifs]);
   useEffect(() => {
     setTableContent(
