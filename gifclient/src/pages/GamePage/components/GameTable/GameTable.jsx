@@ -13,10 +13,10 @@ import { JudgementModal } from "../../../../components/JudgementModal";
 export const GameTable = () => {
   const [tableContent, setTableContent] = useState();
   const [displayJudgementModal, toggleModalDisplay] = useSessionStore(
-    (state) => [state.session.displayJudgementModal, state.toggleModalDisplay]
+    (state) => [state.displayJudgementModal, state.toggleModalDisplay]
   );
   console.log(displayJudgementModal);
-  const [tableGifs, pullNewGif] = useGiphyStore((state) => [state.tableGifs]);
+  const [tableGifs] = useGiphyStore((state) => [state.tableGifs]);
   useEffect(() => {
     setTableContent(
       tableGifs.map((gif) => (

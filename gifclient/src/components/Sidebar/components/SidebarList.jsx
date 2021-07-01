@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useSessionStore } from "../../../store/store";
+import { usePlayerStore } from "../../../store/store";
 
 import SidebarListItem from "./SidebarListItem";
 
 const SidebarList = () => {
-  const [players] = useSessionStore((state) => [state.players]);
+  const [players] = usePlayerStore((state) => [state.players]);
 
   return (
     <>

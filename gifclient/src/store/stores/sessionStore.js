@@ -10,7 +10,6 @@ import { randomId } from "../../utils";
 // *handDisabled: TRUE while a player is the judge OR has already played a card
 // *roundInProgress: TRUE while players are choosing cards and while judge is choosing winner
 // *displayJudgingModal: TRUE while the current judge is displaying and choosing a winner for the round
-
 // * -> set to FALSE when the moveToNextRound() fires
 
 const baseSessionState = {
@@ -28,21 +27,15 @@ const baseSessionState = {
 };
 
 export const sessionStore = (set) => ({
-  session: {
-    ...baseSessionState,
-  },
-  players: [],
-  localPlayer: null,
+  ...baseSessionState,
   initializeSession: (roomId) => {
     set((state) => {
       console.info("[INITIALIZE_SESSION]:", true);
       return {
-        session: {
-          ...state.session,
-          isInitialized: true,
-          roomId: roomId,
-          inRoom: true,
-        },
+        ...state.session,
+        isInitialized: true,
+        roomId: roomId,
+        inRoom: true,
       };
     });
   },
@@ -50,50 +43,8 @@ export const sessionStore = (set) => ({
     console.info("[UPDATE_SESSION]: ", updates);
     set((state) => {
       return {
-        session: {
-          ...state.session,
-          ...updates,
-        },
-      };
-    });
-  },
-  setLocalPlayer: (localPlayer) => {
-    set((state) => {
-      console.info("[SET_THIS_PLAYER]: ", localPlayer.playerName);
-      return {
-        localPlayer: {
-          ...localPlayer,
-          ...state.localPlayer,
-        },
-      };
-    });
-  },
-  updateLocalPlayer: (localPlayer) => {
-    set((state) => {
-      console.info("[UPDATE_THIS_PLAYER]: ", localPlayer.playerName);
-      return {
-        localPlayer: {
-          ...localPlayer,
-          ...state.localPlayer,
-        },
-      };
-    });
-  },
-  updatePlayerList: (players) => {
-    console.info("[UPDATE_PLAYER_LIST]: ", players);
-    set((state) => {
-      return {
-        players: [...players],
-      };
-    });
-  },
-  removePlayer: (playerId) => {
-    console.info("[REMOVE_PLAYER]:", playerId);
-    set((state) => {
-      return {
-        players: [
-          ...state.players.filter((player) => player.playerId !== playerId),
-        ],
+        ...state.session,
+        ...updates,
       };
     });
   },
@@ -101,10 +52,8 @@ export const sessionStore = (set) => ({
     console.info("[TOGGLE_FETCH]: ", bool);
     set((state) => {
       return {
-        session: {
-          ...state.session,
-          fetchFromGiphy: bool,
-        },
+        ...state.session,
+        fetchFromGiphy: bool,
       };
     });
   },
@@ -112,10 +61,8 @@ export const sessionStore = (set) => ({
     console.info("[TOGGLE_MODAL]: ", bool);
     set((state) => {
       return {
-        session: {
-          ...state.session,
-          displayJudgementModal: bool,
-        },
+        ...state.session,
+        displayJudgementModal: bool,
       };
     });
   },
@@ -132,12 +79,10 @@ export const sessionStore = (set) => ({
     console.log("[NEXT_ROUND]: ");
     set((state) => {
       return {
-        session: {
-          handDisabled: false,
-          displayJudgingModal: false,
-          roundInProgress: false,
-          ...state.session,
-        },
+        handDisabled: false,
+        displayJudgingModal: false,
+        roundInProgress: false,
+        ...state.session,
       };
     });
   },

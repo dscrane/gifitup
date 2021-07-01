@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useGiphyStore, useEmitterStore } from "../../../../store/store";
-import { gf } from "../../../../config/giphySDK";
 import { GifCard } from "../../../../components/GifCard";
-import { giphyFetch } from "../../../../api/fetchFromGiphy";
 import { GameCTA } from "../../../../components/GameCTA";
 
 // TODO:

@@ -1,6 +1,10 @@
 /* IMPORTS */
 import React, { useEffect } from "react";
-import { useSessionStore, useGiphyStore } from "../../../../store/store";
+import {
+  useSessionStore,
+  useGiphyStore,
+  usePlayerStore,
+} from "../../../../store/store";
 import { gf } from "../../../../config/giphySDK";
 import socket from "../../../../config/socket";
 import { giphyFetch } from "../../../../api/fetchFromGiphy";
@@ -9,24 +13,20 @@ import { GameContainer } from "../GameContainer";
 /* ------ */
 
 export const GameContext = () => {
-  const [
-    fetchFromGiphy,
-    setLocalPlayer,
-    updateLocalPlayer,
-    updatePlayerList,
-    removePlayer,
-    toggleFetchFromGiphy,
-    updateSession,
-  ] = useSessionStore((state) => [
-    state.fetchFromGiphy,
-    state.setLocalPlayer,
-    state.updateLocalPlayer,
-    state.updatePlayerList,
-    state.removePlayer,
-    state.toggleFetchFromGiphy,
-    state.updateSession,
-  ]);
-
+  const [setLocalPlayer, updateLocalPlayer, updatePlayerList, removePlayer] =
+    usePlayerStore((state) => [
+      state.setLocalPlayer,
+      state.updateLocalPlayer,
+      state.updatePlayerList,
+      state.removePlayer,
+    ]);
+  const [fetchFromGiphy, toggleFetchFromGiphy, updateSession] = useSessionStore(
+    (state) => [
+      state.fetchFromGiphy,
+      state.toggleFetchFromGiphy,
+      state.updateSession,
+    ]
+  );
   const [giphyType, addGifToTable] = useGiphyStore((state) => [
     state.giphyType,
     state.addGifToTable,

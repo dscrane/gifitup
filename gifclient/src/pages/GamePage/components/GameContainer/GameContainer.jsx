@@ -1,10 +1,10 @@
 import React from "react";
-import { useSessionStore } from "../../../../store/store";
+import { usePlayerStore } from "../../../../store/store";
 import { GameTable } from "../GameTable";
 import { GameHand } from "../GameHand";
 
 export const GameContainer = () => {
-  const [localPlayer] = useSessionStore((state) => [state.localPlayer]);
+  const [localPlayer] = usePlayerStore((state) => [state.localPlayer]);
 
   return (
     <div className="game">
