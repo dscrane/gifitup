@@ -3,6 +3,7 @@ import { useGiphyStore, useSessionStore } from "../../../../store/store";
 import { GifCard } from "../../../../components/GifCard";
 import { JudgedCard } from "../../../../components/JudgedCard";
 import { JudgementModal } from "../../../../components/JudgementModal";
+import { PlayerModal } from '../../../../components/PlayerModal'
 
 // TODO:
 //  add card backs to table when player adds a gif
@@ -12,8 +13,8 @@ import { JudgementModal } from "../../../../components/JudgementModal";
 
 export const GameTable = () => {
   const [tableContent, setTableContent] = useState();
-  const [displayJudgementModal, toggleModalDisplay] = useSessionStore(
-    (state) => [state.displayJudgementModal, state.toggleModalDisplay]
+  const [displayJudgementModal, toggleJudgementModal] = useSessionStore(
+    (state) => [state.displayJudgementModal, state.toggleJudgementModal]
   );
   const [tableGifs] = useGiphyStore((state) => [state.tableGifs]);
   useEffect(() => {
@@ -25,6 +26,7 @@ export const GameTable = () => {
   }, [tableGifs]);
   return (
     <div className="game__table">
+      <PlayerModal />
       <JudgedCard />
       {displayJudgementModal ? (
         <JudgementModal />

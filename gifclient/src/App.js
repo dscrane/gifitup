@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import { Redirect, Router, Route, Switch } from "react-router-dom";
 import history from "./config/history";
-import { LandingPage, GamePage } from "./pages";
-import { PlayerPage } from "./pages/PlayerPage";
+import { LandingPage, GamePage, PlayerPage } from "./pages";
 import { useSessionStore } from "./store/store";
 
 const App = () => {

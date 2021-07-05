@@ -20,6 +20,7 @@ const baseSessionState = {
   roundInProgress: false,
   fetchFromGiphy: false,
   handDisabled: false,
+  displayPlayerModal: false,
   displayJudgementModal: false,
   cardSubmitted: false,
   roomId: null,
@@ -57,12 +58,21 @@ export const sessionStore = (set) => ({
       };
     });
   },
-  toggleModalDisplay: (bool) => {
-    console.info("[TOGGLE_MODAL]: ", bool);
+  toggleJudgementModal: () => {
+    console.info("[TOGGLE_MODAL]: ",);
     set((state) => {
       return {
         ...state.session,
-        displayJudgementModal: bool,
+        displayJudgementModal: !state.displayJudgementModal,
+      };
+    });
+  },
+  togglePlayerModal: () => {
+    console.info("[TOGGLE_MODAL]: ",);
+    set((state) => {
+      return {
+        ...state.session,
+        displayPlayerModal: !state.displayPlayerModal,
       };
     });
   },
