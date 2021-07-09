@@ -1,4 +1,4 @@
-import { randomId, createPlayerObject, updatePlayerObjects, getSockets } from "../utils/socketUtils.js";
+import {randomId, createPlayerObject, updatePlayerObjects, getSockets, getPlayerNames} from "../utils/socketUtils.js";
 import {
   createRoomController,
   disconnectController,
@@ -19,6 +19,11 @@ export const socketConfig =  (io) => {
     })
     socket.on("join-room", async (name, roomId) => {
       await joinRoomController(io, socket, name, roomId)
+    })
+    socket.on("fetch-players", async (roomId) => {
+      const players = getSockets(await io.in(roomId).fetchSockets());
+      console.log(players)
+      socket.emit("player-list", players)
     })
     socket.on('new-table-gif', async (gifId) => {
       await newTableGifConroller(io, socket, gifId)

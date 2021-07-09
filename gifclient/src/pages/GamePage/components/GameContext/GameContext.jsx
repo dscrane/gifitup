@@ -1,5 +1,6 @@
 /* IMPORTS */
 import React, { useEffect } from "react";
+import history from "../../../../config/history";
 import {
   useSessionStore,
   useGiphyStore,
@@ -17,12 +18,14 @@ export const GameContext = () => {
     localPlayer,
     setLocalPlayer,
     updateLocalPlayer,
+    updatePlayerNames,
     updatePlayerList,
     removePlayer,
   ] = usePlayerStore((state) => [
     state.localPlayer,
     state.setLocalPlayer,
     state.updateLocalPlayer,
+    state.updatePlayerNames,
     state.updatePlayerList,
     state.removePlayer,
   ]);
@@ -39,7 +42,18 @@ export const GameContext = () => {
   ]);
 
   useEffect(() => {
+    socket.on("room-created", async (roomId) => {
+      console.info("[IO]: created", roomId);
+      updateSession({
+        roomId,
+        shareURL: `http://localhost:3000/join/${roomId}`,
+      });
+      history.push(`sid/${roomId}`);
+    });
     // Player listeners
+    socket.on("player-names", (playerNames) => {
+      console.info("[IO]: session players...", playerNames);
+    });
     socket.on("set-local-player", (localPlayer) => {
       console.info("[IO]: local player...", localPlayer.playerName);
       setLocalPlayer(localPlayer);
@@ -95,6 +109,7 @@ export const GameContext = () => {
     localPlayer,
     removePlayer,
     setLocalPlayer,
+    updateSession,
     updateLocalPlayer,
     updatePlayerList,
     toggleFetchFromGiphy,

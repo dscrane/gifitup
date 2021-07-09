@@ -5,12 +5,8 @@ import socket from "../../config/socket";
 import history from "../../config/history";
 /* ------ */
 
-// TODO:
-//  make this a modal on the game page when first loaded
-//  while this is up show skeleton gifs then load them when the player finishes the form
-
 export const PlayerPage = () => {
-  const [roomId, toggleFetchFromGiphy, updateSession] = useSessionStore(
+  /*  const [roomId, toggleFetchFromGiphy, updateSession] = useSessionStore(
     (state) => [state.roomId, state.toggleFetchFromGiphy, state.updateSession]
   );
   const joinSessionEmitter = useEmitterStore(
@@ -28,6 +24,7 @@ export const PlayerPage = () => {
           roomId,
           shareURL: `http://localhost:3000/join/${roomId}`,
         });
+        history.push(`games/${roomId}`);
       });
     }
   }, [updateSession]);
@@ -39,7 +36,6 @@ export const PlayerPage = () => {
     console.log(roomId);
     await toggleFetchFromGiphy(true);
     await joinSessionEmitter(playerName, roomId);
-    history.push(`games/${roomId}`);
   };
 
   return (
@@ -52,5 +48,5 @@ export const PlayerPage = () => {
       />
       <button type="submit">Join Game</button>
     </form>
-  );
+  );*/
 };

@@ -17,6 +17,7 @@
 export const playerStore = (set) => ({
   localPlayer: null,
   players: [],
+  playerNames: [],
   setLocalPlayer: (localPlayer) => {
     set((state) => {
       console.info("[SET_THIS_PLAYER]: ", localPlayer.playerName);
@@ -44,6 +45,14 @@ export const playerStore = (set) => ({
     set((state) => {
       return {
         players: [...players],
+      };
+    });
+  },
+  updatePlayerNames: (playerNames) => {
+    console.info("[UPDATE_PLAYER_NAMES]: ", playerNames);
+    set((state) => {
+      return {
+        playerNames: [...playerNames],
       };
     });
   },

@@ -16,6 +16,11 @@ export const getSockets = (sockets) => {
   return connectedNames.length ? connectedNames : null;
 }
 
+export const getPlayerNames = sockets => {
+  console.log(sockets)
+  return sockets.map(socket => socket.data.playerName)
+}
+
 export const createPlayerObject = (name, room, socketId, queryOffset) => ({
   socketId,
   queryOffset,

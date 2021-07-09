@@ -11,6 +11,10 @@ export const emitterStore = (set) => ({
     emitLog("joining room... ", roomId, name);
     await socket.emit("join-room", name, roomId);
   },
+  fetchPlayersEmitter: async (roomId) => {
+    emitLog("fetching players in room...", roomId);
+    await socket.emit("fetch-players", roomId);
+  },
   gifToTableEmitter: async (gifId) => {
     emitLog("moving gif...", gifId);
     await socket.emit("new-table-gif", gifId);

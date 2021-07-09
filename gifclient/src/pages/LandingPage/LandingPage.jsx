@@ -7,9 +7,9 @@ export const LandingPage = (props) => {
   const [initializeSession] = useSessionStore((state) => [
     state.initializeSession,
   ]);
-  const [createSessionEmitter] = useEmitterStore((state) => [
-    state.createSessionEmitter,
-  ]);
+  const [createSessionEmitter, fetchPlayersEmitter] = useEmitterStore(
+    (state) => [state.createSessionEmitter, state.fetchPlayersEmitter]
+  );
 
   const handleGameIdChange = (e) => {
     setGameId(e.target.value);
@@ -19,14 +19,13 @@ export const LandingPage = (props) => {
     e.preventDefault();
     if (props.match) {
       await initializeSession(props.match.params.id);
-      history.push(`/players`);
+      await fetchPlayersEmitter(props.match.params.id);
     }
   };
 
   const beginGame = async () => {
     await initializeSession();
     await createSessionEmitter();
-    history.push(`/players`);
   };
 
   return (

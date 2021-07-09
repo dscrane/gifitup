@@ -1,6 +1,7 @@
 html {
   height: 100vh;
   overflow: hidden;
+  background-color: gray;
 }
 body, #root {
   width:  calc(100vw - (100vw - 100%));;
@@ -64,6 +65,10 @@ body, #root {
   border: 1px solid black;
   margin: 1vh;
 }
+.list__item-skeleton {
+  border: 1px solid #b0a5a5;
+  color: #b0a5a5;
+}
 .item__content {
   display: flex;
   justify-content: center;
@@ -87,6 +92,8 @@ body, #root {
   flex: 9 2 74vh;
   display: flex;
   list-style: none;
+  justify-content: center;
+  align-items: center;
 }
 
 .game__hand {
@@ -134,3 +141,16 @@ body, #root {
   color: white;
 }
 
+.modal {
+  display: flex;
+  border-radius: 1.5rem;
+  background-color: lightgreen;
+  height: 60%;
+  width: 55%;
+}
+
+.modal__player {
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}

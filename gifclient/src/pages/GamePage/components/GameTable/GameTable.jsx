@@ -3,7 +3,7 @@ import { useGiphyStore, useSessionStore } from "../../../../store/store";
 import { GifCard } from "../../../../components/GifCard";
 import { JudgedCard } from "../../../../components/JudgedCard";
 import { JudgementModal } from "../../../../components/JudgementModal";
-import { PlayerModal } from '../../../../components/PlayerModal'
+import { PlayerModal } from "../../../../components/PlayerModal";
 
 // TODO:
 //  add card backs to table when player adds a gif
@@ -25,14 +25,13 @@ export const GameTable = () => {
     );
   }, [tableGifs]);
   return (
-    <div className="game__table">
-      <PlayerModal />
+    <>
       <JudgedCard />
       {displayJudgementModal ? (
         <JudgementModal />
       ) : (
         tableContent || "<GameTable/>"
       )}
-    </div>
+    </>
   );
 };

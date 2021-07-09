@@ -3,6 +3,7 @@ import { Redirect, Router, Route, Switch } from "react-router-dom";
 import history from "./config/history";
 import { LandingPage, GamePage, PlayerPage } from "./pages";
 import { useSessionStore } from "./store/store";
+import { GameContext } from "./pages/GamePage/components";
 
 const App = () => {
   // TODO:
@@ -20,10 +21,10 @@ const App = () => {
             <LandingPage />
           </Route>
           <Route exact path="/register/:id" component={LandingPage} />
-          <Route path="/players">
-            <PlayerPage />
+          <Route path="/games">
+            <GamePage />
           </Route>
-          <Route path="/games/:id">
+          <Route path="/sid/:id">
             <GamePage />
           </Route>
         </Switch>

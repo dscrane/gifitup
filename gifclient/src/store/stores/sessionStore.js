@@ -1,4 +1,5 @@
 import { randomId } from "../../utils";
+import history from "../../config/history";
 // TODO:
 //  think about separating player state into a new PlayerStore
 
@@ -30,11 +31,13 @@ const baseSessionState = {
 export const sessionStore = (set) => ({
   ...baseSessionState,
   initializeSession: (roomId) => {
+    history.push("/games");
     set((state) => {
       console.info("[INITIALIZE_SESSION]:", true);
       return {
         ...state.session,
         isInitialized: true,
+        displayPlayerModal: true,
         roomId: roomId,
         inRoom: true,
       };
@@ -59,7 +62,7 @@ export const sessionStore = (set) => ({
     });
   },
   toggleJudgementModal: () => {
-    console.info("[TOGGLE_MODAL]: ",);
+    console.info("[TOGGLE_MODAL]: ");
     set((state) => {
       return {
         ...state.session,
@@ -68,7 +71,7 @@ export const sessionStore = (set) => ({
     });
   },
   togglePlayerModal: () => {
-    console.info("[TOGGLE_MODAL]: ",);
+    console.info("[TOGGLE_MODAL]: ");
     set((state) => {
       return {
         ...state.session,

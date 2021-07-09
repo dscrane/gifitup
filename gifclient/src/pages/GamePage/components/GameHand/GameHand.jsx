@@ -61,8 +61,6 @@ export const GameHand = ({ localPlayer }) => {
   );
 
   return (
-    <div className="game__hand">
-      {sessionGifs && !noGifs ? gameHandDisplay : <div>{placeholder}</div>}
-    </div>
+    <>{sessionGifs && !noGifs ? gameHandDisplay : <div>{placeholder}</div>}</>
   );
 };
