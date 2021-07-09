@@ -1,5 +1,5 @@
-const newTableGifConroller = (io, socket, gifId) => {
+const newTableGifController = (io, socket, gifId) => {
   io.to(socket.data.roomId).emit("add-gif", gifId)
 }
 
-export { newTableGifConroller }
+export { newTableGifController }

@@ -5,7 +5,7 @@ import {
   passJudgeRoleController,
   // endRoundController,
   joinRoomController,
-  newTableGifConroller
+  newTableGifController
 } from '../controllers/socketControllers/index.js';
 import { log } from "../utils/logs.js"
 
@@ -14,20 +14,22 @@ import { log } from "../utils/logs.js"
 export const socketConfig =  (io) => {
   io.on("connection", async socket => {
     log.socket(socket.id, `connected`)
-    socket.on("create-room", async (room) => {
+    socket.on("create-room", async (room, cb) => {
       await createRoomController(io, socket, room);
+      cb("%ccreate-room complete");
     })
-    socket.on("join-room", async (name, roomId) => {
-      console.log('join room ran')
+    socket.on("join-room", async (name, roomId, cb) => {
       await joinRoomController(io, socket, name, roomId)
+      cb("%cjoin-room complete");
     })
-    socket.on("fetch-players", async (roomId) => {
-      console.log('fetch players ran')
-      const players = getPlayerNames(await io.in(roomId).fetchSockets());
-      socket.emit("player-list", players)
+    socket.on("fetch-player-names", async (roomId, cb) => {
+      const playerNames = getPlayerNames(await io.in(roomId).fetchSockets());
+      socket.emit("player-list", playerNames)
+      cb("%cfetch-player-names complete");
     })
-    socket.on('new-table-gif', async (gifId) => {
-      await newTableGifConroller(io, socket, gifId)
+    socket.on('new-table-gif', async (gifId, cb) => {
+      await newTableGifController(io, socket, gifId)
+      cb("%cnew-table-gif complete");
     })
     socket.on("update-scores", async () => {
 

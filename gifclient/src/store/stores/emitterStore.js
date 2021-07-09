@@ -1,42 +1,40 @@
 import socket from "../../config/socket";
-
-const emitLog = (log, data) => console.info("[IO_em]: ", log, data || " ");
+import { log } from "../../utils/logs";
 
 export const emitterStore = (set) => ({
   createSessionEmitter: async () => {
-    emitLog("creating initial session...");
-    await socket.emit("create-room");
+    log.emit("creating initial session...");
+    socket.emit("create-room", null, (ack) => log.ack(ack));
   },
   joinSessionEmitter: async (name, roomId) => {
-    emitLog("joining room... ", roomId, name);
-    await socket.emit("join-room", name, roomId);
+    log.emit("joining room... ");
+    await socket.emit("join-room", name, roomId, (ack) => log.ack(ack));
   },
-  fetchPlayersEmitter: async (roomId) => {
-    emitLog("fetching players in room...", roomId);
-    await socket.emit("fetch-players", roomId);
+  fetchPlayerNamesEmitter: async (roomId) => {
+    log.emit("fetching players in room...");
+    await socket.emit("fetch-player-names", roomId, (ack) => log.ack(ack));
   },
   gifToTableEmitter: async (gifId) => {
-    emitLog("moving gif...", gifId);
-    await socket.emit("new-table-gif", gifId);
-    await socket.emit("end-round");
+    log.emit("moving gif...");
+    await socket.emit("new-table-gif", gifId, (ack) => log.ack(ack));
   },
   updateScoreEmitter: async () => {
-    emitLog("updating scores...");
-    await socket.emit("update-scores");
+    log.emit("updating scores...");
+    await socket.emit("update-scores", (ack) => log.ack(ack));
   },
   endRoundEmitter: async (roomId) => {
-    socket.emit("end-round", roomId);
+    socket.emit("end-round", roomId, (ack) => log.ack(ack));
   },
   changeJudgeEmitter: async () => {
-    emitLog("passing judge role...");
+    log.emit("passing judge role...");
     await socket.emit("pass-judge-role");
   },
   disconnectSessionEmitter: async (playerName, roomName) => {
-    emitLog("leaving room...", roomName);
+    log.emit("leaving room...");
     await socket.emit("disconnect", playerName, roomName);
   },
   endSessionEmitter: async (roomName) => {
-    emitLog("", "ending session...", roomName);
+    log.emit("", "ending session...");
     await socket.emit("end-session", roomName);
   },
 });

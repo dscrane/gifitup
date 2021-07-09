@@ -11,7 +11,7 @@ import history from "../../config/history";
 // *handDisabled: TRUE while a player is the judge OR has already played a card
 // *roundInProgress: TRUE while players are choosing cards and while judge is choosing winner
 // *displayJudgingModal: TRUE while the current judge is displaying and choosing a winner for the round
-// * -> set to FALSE when the moveToNextRound() fires
+// *  set to FALSE when the moveToNextRound() fires
 
 const baseSessionState = {
   id: randomId("S"),
@@ -33,7 +33,7 @@ export const sessionStore = (set) => ({
   initializeSession: (roomId) => {
     history.push("/games");
     set((state) => {
-      console.info("[INITIALIZE_SESSION]:", true);
+      console.info("%c[INITIALIZE_SESSION]:", "color: green", true);
       return {
         ...state.session,
         isInitialized: true,
@@ -44,7 +44,7 @@ export const sessionStore = (set) => ({
     });
   },
   updateSession: (updates) => {
-    console.info("[UPDATE_SESSION]: ", updates);
+    console.info("%c[UPDATE_SESSION]:", "color: green", updates);
     set((state) => {
       return {
         ...state.session,
@@ -53,7 +53,7 @@ export const sessionStore = (set) => ({
     });
   },
   toggleFetchFromGiphy: (bool) => {
-    console.info("[TOGGLE_FETCH]: ", bool);
+    console.info("%c[TOGGLE_FETCH]: ", "color: green", bool);
     set((state) => {
       return {
         ...state.session,
@@ -62,7 +62,7 @@ export const sessionStore = (set) => ({
     });
   },
   toggleJudgementModal: () => {
-    console.info("[TOGGLE_MODAL]: ");
+    console.info("%c[TOGGLE_MODAL]: ", "color: green");
     set((state) => {
       return {
         ...state.session,
@@ -71,7 +71,7 @@ export const sessionStore = (set) => ({
     });
   },
   togglePlayerModal: () => {
-    console.info("[TOGGLE_MODAL]: ");
+    console.info("%c[TOGGLE_MODAL]: ", "color: green");
     set((state) => {
       return {
         ...state.session,
@@ -101,7 +101,7 @@ export const sessionStore = (set) => ({
   },
   // Currently unused
   // fetchPlayerList: (players) => {
-  //   console.info("[FETCH_PLAYERS]: ", players);
+  //   console.info("%c[FETCH_PLAYERS]: ", players, "color: green);
   //   const playerObjects = players.map((player) => {
   //     return {
   //       ...player,

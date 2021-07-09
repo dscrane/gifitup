@@ -1,3 +1,4 @@
+import { log } from "../../utils/logs";
 // STATE UPDATE BREAKDOWN / THINK THROUGH
 /* LOCAL PLAYER
   // playerId: randomly generated player id
@@ -20,7 +21,7 @@ export const playerStore = (set) => ({
   playerNames: [],
   setLocalPlayer: (localPlayer) => {
     set((state) => {
-      console.info("[SET_THIS_PLAYER]: ", localPlayer);
+      log.player("%c[SET_THIS_PLAYER]:", localPlayer.playerName);
       return {
         localPlayer: {
           ...localPlayer,
@@ -30,7 +31,7 @@ export const playerStore = (set) => ({
   },
   updateLocalPlayer: (updates) => {
     set((state) => {
-      console.info("[UPDATE_LOCAL_PLAYER]: ", updates);
+      log.player("%c[UPDATE_LOCAL_PLAYER]:", updates);
       return {
         localPlayer: {
           ...state.localPlayer,
@@ -40,9 +41,8 @@ export const playerStore = (set) => ({
     });
   },
   updatePlayerList: (players) => {
-    console.info("[UPDATE_PLAYER_LIST]: ", players);
+    log.player("%c[UPDATE_PLAYER_LIST]:", players);
     set((state) => {
-      console.log(players, state.players);
       return {
         players: [...players],
       };

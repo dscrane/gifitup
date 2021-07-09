@@ -1,5 +1,6 @@
 import { giphyFetch } from "../../api/fetchFromGiphy";
 import { gf } from "../../config/giphySDK";
+import { log } from "../../utils/logs";
 
 export const giphyStore = (set) => ({
   giphyCategory: "memes",
@@ -9,7 +10,7 @@ export const giphyStore = (set) => ({
   noGifs: false,
   setInitialGifs: async (category, type, offset) => {
     const gifs = await giphyFetch(gf, type, "search", category, offset);
-    console.info("[GIF]: setting initial gifs...", gifs);
+    log.gif("%c[GIF]: %csetting initial gifs...", gifs);
     set((state) => {
       return {
         sessionGifs: [...gifs],
@@ -18,7 +19,7 @@ export const giphyStore = (set) => ({
   },
   pullNewGif: async (giphyCategory, giphyType) => {
     const gif = await giphyFetch(gf, giphyType, "random", giphyCategory);
-    console.info("[GIF]: fetching new gif...", gif.id);
+    log.gif("%c[GIF]: %cpulling new gif...", gif.id);
     set((state) => {
       return {
         sessionGifs: [gif, ...state.sessionGifs],
@@ -26,7 +27,7 @@ export const giphyStore = (set) => ({
     });
   },
   addGifToTable: (gif) => {
-    console.info("[GIF]: updating table gifs...");
+    log.gif("%c[GIF]: %cadding gif to table...", gif.id);
     set((state) => {
       return {
         tableGifs: [gif, ...state.tableGifs],
@@ -34,7 +35,7 @@ export const giphyStore = (set) => ({
     });
   },
   removeGifFromHand: (gifId) => {
-    console.info("[GIF]: removing gif from hand...", gifId);
+    log.gif("%c[GIF]: %cremoving gif from hand...", gifId);
     set((state) => {
       const currentGifs = state.sessionGifs;
       return {
@@ -43,7 +44,7 @@ export const giphyStore = (set) => ({
     });
   },
   handleNoGifReturn: () => {
-    console.info("[GIF]: no gifs returned...");
+    log.gif("%c[GIF]: %cno gifs returned...");
     set((state) => {
       return {
         noGifs: true,

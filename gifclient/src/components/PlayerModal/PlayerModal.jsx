@@ -33,7 +33,6 @@ export const PlayerModal = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(roomId);
     await toggleFetchFromGiphy(true);
     await joinSessionEmitter(playerName, roomId);
   };
