@@ -18,15 +18,15 @@ export const GameContext = () => {
     localPlayer,
     setLocalPlayer,
     updateLocalPlayer,
-    updatePlayerNames,
     updatePlayerList,
+    addPlayerToList,
     removePlayer,
   ] = usePlayerStore((state) => [
     state.localPlayer,
     state.setLocalPlayer,
     state.updateLocalPlayer,
-    state.updatePlayerNames,
     state.updatePlayerList,
+    state.addPlayerToList,
     state.removePlayer,
   ]);
   const [fetchFromGiphy, toggleFetchFromGiphy, updateSession] = useSessionStore(
@@ -42,20 +42,17 @@ export const GameContext = () => {
   ]);
 
   useEffect(() => {
-    socket.on("room-created", async (roomId) => {
+    socket.on("room-created", (roomId) => {
       console.info("[IO]: created", roomId);
       updateSession({
         roomId,
         shareURL: `http://localhost:3000/join/${roomId}`,
       });
-      history.push(`sid/${roomId}`);
+      history.push(`games/sid/${roomId}`);
     });
     // Player listeners
-    socket.on("player-names", (playerNames) => {
-      console.info("[IO]: session players...", playerNames);
-    });
     socket.on("set-local-player", (localPlayer) => {
-      console.info("[IO]: local player...", localPlayer.playerName);
+      console.info("[IO]: local player...", localPlayer);
       setLocalPlayer(localPlayer);
       updateSession({ isStarted: true });
     });
@@ -67,8 +64,8 @@ export const GameContext = () => {
       console.info("[IO]: current players...", players);
       updatePlayerList(players);
     });
-    socket.on("player-joined", (players, name) => {
-      console.info("[IO]: player joined...", name);
+    socket.on("player-joined", (players) => {
+      console.info("[IO]: player joined...", players);
       updatePlayerList(players);
     });
     socket.on("player-left", (playerId, name) => {
@@ -106,15 +103,16 @@ export const GameContext = () => {
       addGifToTable(gif);
     });
   }, [
-    localPlayer,
-    removePlayer,
+    // localPlayer,
+    //   removePlayer,
     setLocalPlayer,
     updateSession,
-    updateLocalPlayer,
-    updatePlayerList,
-    toggleFetchFromGiphy,
-    fetchFromGiphy,
-    addGifToTable,
+    //   addPlayerToList,
+    //   updateLocalPlayer,
+    //   updatePlayerList,
+    //   toggleFetchFromGiphy,
+    //   fetchFromGiphy,
+    //   addGifToTable,
   ]);
   return (
     <>

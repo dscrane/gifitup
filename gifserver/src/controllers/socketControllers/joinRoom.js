@@ -18,10 +18,10 @@ const joinRoomController = async (io, socket, name, roomId) => {
   socket.emit('set-local-player', localPlayer)
   // Collect player objects of connected sockets
   // if player is alone in room return array of "localPlayer"
-  const connectedPlayers = players ? [localPlayer, ...players] : [ {...localPlayer } ]
-  socket.emit('player-list', connectedPlayers)
+  const connectedPlayers = players ? [localPlayer, ...players] : [ localPlayer ]
   // Emit event to update client state
-  io.to(roomId).emit('player-joined', connectedPlayers, name)
+  console.log('join room ran', connectedPlayers)
+  io.to(roomId).emit('player-joined', connectedPlayers)
 }
 
 export { joinRoomController };

@@ -18,7 +18,9 @@ export const getSockets = (sockets) => {
 
 export const getPlayerNames = sockets => {
   console.log(sockets)
-  return sockets.map(socket => socket.data.playerName)
+  return sockets.map(socket => ({
+    socketId: socket.id, playerName: socket.data.playerName
+  }))
 }
 
 export const createPlayerObject = (name, room, socketId, queryOffset) => ({

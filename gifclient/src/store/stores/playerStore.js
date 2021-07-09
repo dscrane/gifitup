@@ -20,11 +20,10 @@ export const playerStore = (set) => ({
   playerNames: [],
   setLocalPlayer: (localPlayer) => {
     set((state) => {
-      console.info("[SET_THIS_PLAYER]: ", localPlayer.playerName);
+      console.info("[SET_THIS_PLAYER]: ", localPlayer);
       return {
         localPlayer: {
           ...localPlayer,
-          ...state.localPlayer,
         },
       };
     });
@@ -43,16 +42,17 @@ export const playerStore = (set) => ({
   updatePlayerList: (players) => {
     console.info("[UPDATE_PLAYER_LIST]: ", players);
     set((state) => {
+      console.log(players, state.players);
       return {
         players: [...players],
       };
     });
   },
-  updatePlayerNames: (playerNames) => {
-    console.info("[UPDATE_PLAYER_NAMES]: ", playerNames);
+  addPlayerToList: (players) => {
+    console.info("[ADD_PLAYER]: ", players);
     set((state) => {
       return {
-        playerNames: [...playerNames],
+        players: [...players],
       };
     });
   },

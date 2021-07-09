@@ -6,7 +6,7 @@ import {
   // endRoundController,
   joinRoomController,
   newTableGifConroller
-} from "../controllers/socketControllers/index.js";
+} from '../controllers/socketControllers/index.js';
 import { log } from "../utils/logs.js"
 
 
@@ -18,11 +18,12 @@ export const socketConfig =  (io) => {
       await createRoomController(io, socket, room);
     })
     socket.on("join-room", async (name, roomId) => {
+      console.log('join room ran')
       await joinRoomController(io, socket, name, roomId)
     })
     socket.on("fetch-players", async (roomId) => {
-      const players = getSockets(await io.in(roomId).fetchSockets());
-      console.log(players)
+      console.log('fetch players ran')
+      const players = getPlayerNames(await io.in(roomId).fetchSockets());
       socket.emit("player-list", players)
     })
     socket.on('new-table-gif', async (gifId) => {

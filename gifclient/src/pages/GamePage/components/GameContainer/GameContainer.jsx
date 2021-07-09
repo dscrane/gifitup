@@ -22,22 +22,6 @@ export const GameContainer = () => {
     state.updateSession,
   ]);
 
-  useEffect(() => {
-    if (roomId) {
-      updateSession({ roomId });
-      history.push(`games/${roomId}`);
-    } else {
-      socket.on("room-created", async (roomId) => {
-        console.info("[IO]: created", roomId);
-        updateSession({
-          roomId,
-          shareURL: `http://localhost:3000/join/${roomId}`,
-        });
-        history.push(`games/${roomId}`);
-      });
-    }
-  }, [updateSession]);
-
   const handDisplay = localPlayer ? (
     <GameHand localPlayer={localPlayer} />
   ) : (
