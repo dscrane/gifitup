@@ -14,17 +14,25 @@ const testsvg = (
   </svg>
 );
 
-const SidebarListItem = ({ itemContent, skeletonDisplay }) => {
+const SidebarListItem = ({
+  itemContent,
+  itemIcon,
+  itemScore,
+  skeletonDisplay,
+}) => {
   //TODO find a better svg lib and integrate
   return (
     <div
       className={`list__item ${skeletonDisplay ? "list__item-skeleton" : ""}`}
     >
       <div className="item__content item__content-avi">
-        <div className="avi-svg">{testsvg}</div>
+        <div className="avi-svg">{itemIcon}</div>
       </div>
       <div className="item__content item__content-name">
         <div>{itemContent}</div>
+      </div>
+      <div className="item__content item__content-score">
+        <div>{itemScore}</div>
       </div>
     </div>
   );

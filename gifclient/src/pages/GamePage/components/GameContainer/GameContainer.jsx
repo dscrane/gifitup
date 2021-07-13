@@ -1,12 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import Spinner from "react-bootstrap/Spinner";
 import { usePlayerStore, useSessionStore } from "../../../../store/store";
 import { GameTable } from "../GameTable";
 import { GameHand } from "../GameHand";
-import { PlayerModal } from "../../../../components/PlayerModal";
+import { PlayerForm } from "../../../../components/PlayerForm";
 import history from "../../../../config/history";
 import socket from "../../../../config/socket";
+import { ModalContainer } from "../../../../components/ModalContainer";
 
 export const GameContainer = () => {
+  const [showModal, setShowModal] = useState(true);
   const [localPlayer] = usePlayerStore((state) => [state.localPlayer]);
   const [
     roomId,
@@ -25,11 +28,22 @@ export const GameContainer = () => {
   const handDisplay = localPlayer ? (
     <GameHand localPlayer={localPlayer} />
   ) : (
-    <div>Loading...</div>
+    <Spinner animation="border" role="status" variant="secondary">
+      <span className="sr-only">Loading...</span>
+    </Spinner>
   );
 
   const tableDisplay =
-    !localPlayer && displayPlayerModal ? <PlayerModal /> : <GameTable />;
+    !localPlayer && displayPlayerModal ? (
+      <ModalContainer
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        title="Create Player Profile"
+        body={<PlayerForm />}
+      />
+    ) : (
+      <GameTable />
+    );
 
   return (
     <div className="game">

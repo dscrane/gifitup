@@ -4,6 +4,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
 import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import App from "./App";
 
 ReactDOM.render(

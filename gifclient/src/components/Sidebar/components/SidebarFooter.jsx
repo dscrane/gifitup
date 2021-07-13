@@ -16,10 +16,10 @@ const SidebarFooter = () => {
     changeJudgeEmitter();
   };
   return (
-    <div>
+    <div className="sidebar__footer">
       <div>SidebarFooter</div>
       <GameCTA fn={handleClick} text="Copy Game Link" />
-      <GameCTA fn={handleNext} text="Next Round" />
+      {/*<GameCTA fn={handleNext} text="Next Round" />*/}
     </div>
   );
 };

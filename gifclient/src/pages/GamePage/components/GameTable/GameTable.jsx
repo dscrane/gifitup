@@ -3,7 +3,7 @@ import { useGiphyStore, useSessionStore } from "../../../../store/store";
 import { GifCard } from "../../../../components/GifCard";
 import { JudgedCard } from "../../../../components/JudgedCard";
 import { JudgementModal } from "../../../../components/JudgementModal";
-import { PlayerModal } from "../../../../components/PlayerModal";
+import { PlayerForm } from "../../../../components/PlayerForm";
 
 // TODO:
 //  add card backs to table when player adds a gif

@@ -1,28 +1,20 @@
 /* IMPORTS */
 import React, { useEffect, useState } from "react";
 import { useEmitterStore, useSessionStore } from "../../store/store";
-import { PlayerPage } from "../../pages";
-import socket from "../../config/socket";
-import history from "../../config/history";
+
+// Style Imports
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 /* ------ */
 
 // TODO:
 //  make this a modal on the game page when first loaded
 //  while this is up show skeleton gifs then load them when the player finishes the form
 
-export const PlayerModal = () => {
-  const [
-    roomId,
-    displayPlayerModal,
-    togglePlayerModal,
-    toggleFetchFromGiphy,
-    updateSession,
-  ] = useSessionStore((state) => [
+export const PlayerForm = () => {
+  const [roomId, toggleFetchFromGiphy] = useSessionStore((state) => [
     state.roomId,
-    state.displayPlayerModal,
     state.togglePlayerModal,
-    state.toggleFetchFromGiphy,
-    state.updateSession,
   ]);
   const joinSessionEmitter = useEmitterStore(
     (state) => state.joinSessionEmitter
@@ -38,17 +30,17 @@ export const PlayerModal = () => {
   };
 
   return (
-    <div className="modal modal__player">
-      <div className="modal__heading">Create your player</div>
-      <form onSubmit={handleSubmit}>
-        <label>Name: </label>
-        <input
+    <Form onSubmit={handleSubmit}>
+      <Form.Group>
+        <Form.Label>Name: </Form.Label>
+        <Form.Control
+          type="name"
           name="player-name"
           value={playerName}
           onChange={handleNameChange}
         />
-        <button type="submit">Join Game</button>
-      </form>
-    </div>
+      </Form.Group>
+      <Button type="submit">Join Game</Button>
+    </Form>
   );
 };

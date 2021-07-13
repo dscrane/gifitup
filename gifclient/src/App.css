@@ -55,15 +55,12 @@ body, #root {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  margin: 1vh;
-  width: 80%;
+  width: 100%;
   }
 .list__item {
   display: flex;
   flex-direction: row;
-  height: 5vh;
-  border: 1px solid black;
-  margin: 1vh;
+
 }
 .list__item-skeleton {
   border: 1px solid #b0a5a5;
@@ -85,6 +82,12 @@ body, #root {
 }
 .sidebar__row-footer {
   flex: 3 1 10vh;
+}
+.sidebar__footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .game__table {
   margin: 1vh 1vh .5vh 1vh;
@@ -114,6 +117,9 @@ body, #root {
   list-style: none;
   padding: 0 0;
 }
+.gif__item:hover {
+  cursor: pointer;
+}
 .react-freezeframe {
   z-index: 10;
 }
@@ -125,7 +131,8 @@ body, #root {
 }
 
 .card__judge {
-  background: black;
+  background: black !important;
+  color: white !important;
   border-radius: .2rem;
   margin: auto;
   height: 30%;
@@ -141,16 +148,17 @@ body, #root {
   color: white;
 }
 
-.modal {
-  display: flex;
-  border-radius: 1.5rem;
-  background-color: lightgreen;
-  height: 60%;
-  width: 55%;
-}
+/*.modal {*/
+  /*display: flex !important;*/
+  /*justify-self: center;*/
+/*  border-radius: 1.5rem;*/
+/*  background-color: lightgreen;*/
+/*  height: 60%;*/
+/*  width: 55%;*/
+/*}*/
 
-.modal__player {
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-}
+/*.modal__player {*/
+/*  flex-direction: column;*/
+/*  justify-content: space-evenly;*/
+/*  align-items: center;*/
+/*}*/

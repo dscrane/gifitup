@@ -1,13 +1,12 @@
 /* IMPORTS */
-import React from 'react'
+import React from "react";
+import Button from "react-bootstrap/Button";
 /* ------ */
 
 export const GameCTA = ({ fn, text }) => {
   return (
-    <button type="button" onClick={() => fn()}>
+    <Button variant="secondary" size="sm" type="button" onClick={() => fn()}>
       {text}
-    </button>
-  )
-}
-
-
+    </Button>
+  );
+};

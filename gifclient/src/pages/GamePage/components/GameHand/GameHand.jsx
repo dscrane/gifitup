@@ -54,7 +54,7 @@ export const GameHand = ({ localPlayer }) => {
           removeGifFromHand={removeGifFromHand}
         />
       ))}
-      {sessionGifs.length < 7 ? (
+      {sessionGifs.length < 7 && sessionGifs.length > 0 ? (
         <GameCTA fn={pullNewGif} text={"Draw Gif"} />
       ) : null}
     </ul>
