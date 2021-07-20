@@ -50,6 +50,7 @@ export const GameHand = ({ localPlayer }) => {
         <GifCard
           key={gif.id}
           gif={gif}
+          isJudge={localPlayer.isJudge}
           gifToTableEmitter={gifToTableEmitter}
           removeGifFromHand={removeGifFromHand}
         />

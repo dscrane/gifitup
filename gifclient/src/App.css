@@ -117,17 +117,33 @@ body, #root {
   list-style: none;
   padding: 0 0;
 }
+.gif__item {
+  border-radius: .25rem;
+}
 .gif__item:hover {
   cursor: pointer;
 }
-.react-freezeframe {
+.gif__item-locked {
+  background-color: lightgrey;
   z-index: 10;
 }
+.gif__item-locked > .react-freezeframe {
+  opacity: .5;
+  opacity: .5;
+}
+
 .ff-canvas {
   border-radius: .25rem;
 }
 .ff-image {
   border-radius: .25rem;
+}
+.freeze__container {
+  cursor: pointer;
+  background-color: crimson;
+}
+.freeze__container-locked {
+  cursor: none;
 }
 
 .card__judge {

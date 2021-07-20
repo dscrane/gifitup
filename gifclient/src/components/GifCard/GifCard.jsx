@@ -3,6 +3,8 @@
 
 import React, { Component, createRef, useState } from "react";
 import ReactFreezeframe from "react-freezeframe";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 /* ------ */
 
 class GifCard extends Component {
@@ -19,11 +21,33 @@ class GifCard extends Component {
     this.gifToTableEmitter(gifId);
     this.removeGifFromHand(gifId);
   }
-  render() {
+  renderTooltip(overlayTriggerProps) {
+    return (
+      <Tooltip id="gif-tooltip" {...overlayTriggerProps}>
+        Cannot play card as judge.
+      </Tooltip>
+    );
+  }
+  renderTooltipOverlay(content) {
+    return (
+      <OverlayTrigger
+        delay={{ show: 150, hide: 200 }}
+        overlay={this.props.isJudge ? this.renderTooltip : null}
+        placement="right"
+      >
+        {content}
+      </OverlayTrigger>
+    );
+  }
+  gifCardContainer() {
     return (
       <li
-        className="gif__item"
-        onClick={this.isTableGif ? null : this.handleMove.bind(this)}
+        className={`gif__item ${this.props.isJudge ? "gif__item-locked" : ""}`}
+        onClick={
+          this.isTableGif || this.props.isJudge
+            ? null
+            : this.handleMove.bind(this)
+        }
       >
         <ReactFreezeframe
           className="freeze__container"
@@ -31,10 +55,20 @@ class GifCard extends Component {
           id={this.gif.id}
           src={this.gif.images.fixed_width_small.url}
           alt={this.title}
-          options={{ selector: ".freeze__container" }}
+          options={{
+            selector: ".freeze__container",
+            trigger: this.props.isJudge ? false : "hover",
+          }}
         />
       </li>
     );
+  }
+
+  render() {
+    console.log(this.props.isJudge);
+    return this.props.isJudge
+      ? this.renderTooltipOverlay(this.gifCardContainer())
+      : this.gifCardContainer();
   }
 }
 
