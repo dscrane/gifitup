@@ -40,6 +40,8 @@ export const GameContainer = () => {
         onHide={() => setShowModal(false)}
         title="Create Player Profile"
         body={<PlayerForm />}
+        size={"lg"}
+        className={"modal modal__player"}
       />
     ) : (
       <GameTable />

@@ -21,7 +21,7 @@ body, #root {
   flex: 2.5 1;
   flex-direction: column;
   background: burlywood;
-  max-width: 325px;
+  max-width: 275px;
 }
 .game {
   display: flex;
@@ -60,7 +60,6 @@ body, #root {
 .list__item {
   display: flex;
   flex-direction: row;
-
 }
 .list__item-skeleton {
   border: 1px solid #b0a5a5;
@@ -68,7 +67,7 @@ body, #root {
 }
 .item__content {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
 .item__content-avi {
@@ -79,6 +78,9 @@ body, #root {
 }
 .item__content-name {
   flex: 10 2;
+}
+.item__content-score {
+  font-weight: bold;
 }
 .sidebar__row-footer {
   flex: 3 1 10vh;
@@ -129,7 +131,6 @@ body, #root {
 }
 .gif__item-locked > .react-freezeframe {
   opacity: .5;
-  opacity: .5;
 }
 
 .ff-canvas {
@@ -140,7 +141,7 @@ body, #root {
 }
 .freeze__container {
   cursor: pointer;
-  background-color: crimson;
+  width: auto;
 }
 .freeze__container-locked {
   cursor: none;
@@ -164,6 +165,13 @@ body, #root {
   color: white;
 }
 
+.judge__modal {
+  margin: auto;
+  height: 400px;
+  width: 400px;
+  background-color: cyan;
+}
+
 /*.modal {*/
   /*display: flex !important;*/
   /*justify-self: center;*/
@@ -178,3 +186,14 @@ body, #root {
 /*  justify-content: space-evenly;*/
 /*  align-items: center;*/
 /*}*/
+
+.modal__body {
+  height: 90% !important;
+}
+
+.modal__judgement {
+  height: 90vh !important;
+  max-height: 90% !important;
+  width: 90vw  !important;
+  max-width: 90vw  !important;
+}

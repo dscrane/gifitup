@@ -4,6 +4,7 @@ import { GifCard } from "../../../../components/GifCard";
 import { JudgedCard } from "../../../../components/JudgedCard";
 import { JudgementModal } from "../../../../components/JudgementModal";
 import { PlayerForm } from "../../../../components/PlayerForm";
+import { ModalContainer } from "../../../../components/ModalContainer";
 
 // TODO:
 //  add card backs to table when player adds a gif
@@ -12,6 +13,7 @@ import { PlayerForm } from "../../../../components/PlayerForm";
 //  judge clicks on the winning gif, modal closes and next round is initiated
 
 export const GameTable = () => {
+  const [showModal, setShowModal] = useState(true);
   const [tableContent, setTableContent] = useState();
   const [displayJudgementModal, toggleJudgementModal] = useSessionStore(
     (state) => [state.displayJudgementModal, state.toggleJudgementModal]
@@ -24,11 +26,29 @@ export const GameTable = () => {
       ))
     );
   }, [tableGifs]);
+  const handleClick = () => {
+    console.log("button functions");
+    toggleJudgementModal();
+  };
+
+  const testButton =
+    tableGifs.length > 1 ? (
+      <button type="button" onClick={() => handleClick()}>
+        Test Judgement
+      </button>
+    ) : null;
   return (
     <>
+      {testButton}
       <JudgedCard />
       {displayJudgementModal ? (
-        <JudgementModal />
+        <ModalContainer
+          show={showModal}
+          onHide={() => setShowModal(false)}
+          title="Picking a Winner"
+          body={<JudgementModal tableGifs={tableGifs} />}
+          // size={"xl"}
+        />
       ) : (
         tableContent || "<GameTable/>"
       )}

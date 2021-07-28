@@ -4,19 +4,19 @@ import Modal from "react-bootstrap/Modal";
 /* ------ */
 
 export const ModalContainer = (props) => {
+  console.log(props.body);
   return (
     <Modal
-      {...props}
-      size="lg"
+      onHide={props.onHide}
+      dialogClassName="modal__judgement"
       aria-labelledby="contained-modal-title-vcenter"
       centered
       show={props.show}
-      className="modal modal__player"
     >
       <Modal.Header className="modal__heading">
         <Modal.Title>{props.title}</Modal.Title>
       </Modal.Header>
-      <Modal.Body>{props.body}</Modal.Body>
+      <Modal.Body className="modal__body">{props.body}</Modal.Body>
     </Modal>
   );
 };

@@ -5,6 +5,7 @@ import React, { Component, createRef, useState } from "react";
 import ReactFreezeframe from "react-freezeframe";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
+import { log } from "../../utils/logs";
 /* ------ */
 
 class GifCard extends Component {
@@ -53,7 +54,11 @@ class GifCard extends Component {
           className="freeze__container"
           ref={this.freeze}
           id={this.gif.id}
-          src={this.gif.images.fixed_width_small.url}
+          src={
+            this.isJudgementGif
+              ? this.gif.images.original
+              : this.gif.images.fixed_width_small.url
+          }
           alt={this.title}
           options={{
             selector: ".freeze__container",
@@ -65,7 +70,6 @@ class GifCard extends Component {
   }
 
   render() {
-    console.log(this.props.isJudge);
     return this.props.isJudge
       ? this.renderTooltipOverlay(this.gifCardContainer())
       : this.gifCardContainer();
