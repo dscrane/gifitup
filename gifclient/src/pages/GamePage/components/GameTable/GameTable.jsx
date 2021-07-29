@@ -15,9 +15,12 @@ import { ModalContainer } from "../../../../components/ModalContainer";
 export const GameTable = () => {
   const [showModal, setShowModal] = useState(true);
   const [tableContent, setTableContent] = useState();
-  const [displayJudgementModal, toggleJudgementModal] = useSessionStore(
-    (state) => [state.displayJudgementModal, state.toggleJudgementModal]
-  );
+  const [isJudge, displayJudgementModal, toggleJudgementModal] =
+    useSessionStore((state) => [
+      state.isJudge,
+      state.displayJudgementModal,
+      state.toggleJudgementModal,
+    ]);
   const [tableGifs] = useGiphyStore((state) => [state.tableGifs]);
   useEffect(() => {
     setTableContent(
@@ -46,9 +49,11 @@ export const GameTable = () => {
           show={showModal}
           onHide={() => setShowModal(false)}
           title="Picking a Winner"
-          body={<JudgementModal tableGifs={tableGifs} />}
-          // size={"xl"}
-        />
+          dialogClassName="modal__judgement"
+          // body={}
+        >
+          <JudgementModal tableGifs={tableGifs} />
+        </ModalContainer>
       ) : (
         tableContent || "<GameTable/>"
       )}

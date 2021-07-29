@@ -4,11 +4,11 @@ import Modal from "react-bootstrap/Modal";
 /* ------ */
 
 export const ModalContainer = (props) => {
-  console.log(props.body);
+  console.log(props);
   return (
     <Modal
       onHide={props.onHide}
-      dialogClassName="modal__judgement"
+      dialogClassName={props.dialogClassName}
       aria-labelledby="contained-modal-title-vcenter"
       centered
       show={props.show}
@@ -16,7 +16,7 @@ export const ModalContainer = (props) => {
       <Modal.Header className="modal__heading">
         <Modal.Title>{props.title}</Modal.Title>
       </Modal.Header>
-      <Modal.Body className="modal__body">{props.body}</Modal.Body>
+      <Modal.Body>{props.children}</Modal.Body>
     </Modal>
   );
 };
